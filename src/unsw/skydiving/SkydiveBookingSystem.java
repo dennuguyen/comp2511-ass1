@@ -2,25 +2,20 @@ package unsw.skydiving;
 
 import java.time.LocalDateTime;
 import java.util.Scanner;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
  * Skydive Booking System for COMP2511.
  *
- * A basic prototype to serve as the "back-end" of a skydive booking system. Input
- * and output is in JSON format.
- *
- * @author Matthew Perry
- *
+ * A basic prototype to serve as the "back-end" of a skydive booking system. Input and output is in
+ * JSON format.
  */
-
-
 public class SkydiveBookingSystem {
 
     /**
-     * Constructs a skydive booking system. Initially, the system contains no flights, skydivers, jumps or dropzones
+     * Constructs a skydive booking system. Initially, the system contains no flights, skydivers,
+     * jumps or dropzones
      */
     public SkydiveBookingSystem() {
         // TODO Auto-generated constructor stub
@@ -30,23 +25,24 @@ public class SkydiveBookingSystem {
 
         switch (json.getString("command")) {
 
-        case "flight":
-            String id = json.getString("id");
-            int maxload = json.getInt("maxload");
-            LocalDateTime starttime = LocalDateTime.parse(json.getString("starttime"));
-            LocalDateTime endtime = LocalDateTime.parse(json.getString("endtime"));
-            String dropzone = json.getString("dropzone");
-            
-            // TODO - add flight
+            case "flight":
+                String id = json.getString("id");
+                int maxload = json.getInt("maxload");
+                LocalDateTime starttime = LocalDateTime.parse(json.getString("starttime"));
+                LocalDateTime endtime = LocalDateTime.parse(json.getString("endtime"));
+                String dropzone = json.getString("dropzone");
 
-            break;
+                // TODO - add flight
 
-        // TODO Implement other commands
-        
+                break;
+
+            case "request":
+
+
         }
     }
 
- 
+
 
     public static void main(String[] args) {
         SkydiveBookingSystem system = new SkydiveBookingSystem();
