@@ -22,71 +22,147 @@ public final class Resources {
     }
 
     public static Jump getJump(String id) {
-        for (Jump jump : jumps)
-            if (Objects.equals(jump.getID(), id))
-                return jump;
-        throw new NullPointerException();
+        Jump retval = null;
+
+        try {
+            for (Jump jump : jumps)
+                if (Objects.equals(jump.getID(), id))
+                    return retval;
+
+            if (retval == null)
+                throw new NullPointerException();
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        return retval;
     }
 
     public static void addJump(Jump jump) {
-        if (jumps.add(jump) == false)
-            throw new IllegalArgumentException("Error: jump id already exists");
+        try {
+            if (jumps.add(jump) == false)
+                throw new IllegalArgumentException("Error: jump id already exists");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void removeJump(String id) {
-        if (jumps.removeIf(jump -> Objects.equals(jump.getID(), id)) == false)
-            throw new IllegalArgumentException("Error: jump id does not exist");
+        try {
+            if (jumps.removeIf(jump -> Objects.equals(jump.getID(), id)) == false)
+                throw new IllegalArgumentException("Error: jump id does not exist");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     public static Skydiver getSkydiver(String id) {
-        for (Skydiver skydiver : skydivers)
-            if (Objects.equals(skydiver.getID(), id))
-                return skydiver;
-        throw new NullPointerException();
+        Skydiver retval = null;
+
+        try {
+            for (Skydiver skydiver : skydivers)
+                if (Objects.equals(skydiver.getID(), id))
+                    return skydiver;
+
+            if (retval == null)
+                throw new NullPointerException();
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        return retval;
     }
 
     public static void addSkydiver(Skydiver skydiver) {
-        if (skydivers.add(skydiver) == false)
-            throw new IllegalArgumentException("Error: skydiver id already exists");
+        try {
+            if (skydivers.add(skydiver) == false)
+                throw new IllegalArgumentException("Error: skydiver id already exists");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void removeSkydiver(String id) {
-        if (skydivers.removeIf(skydiver -> Objects.equals(skydiver.getID(), id)) == false)
-            throw new IllegalArgumentException("Error: skydiver id does not exist");
+        try {
+            if (skydivers.removeIf(skydiver -> Objects.equals(skydiver.getID(), id)) == false)
+                throw new IllegalArgumentException("Error: skydiver id does not exist");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     public static Skydiver getAvailableInstructor(String id) {
-        for (Skydiver instructor : availableInstructors)
-            if (Objects.equals(instructor.getID(), id))
-                return instructor;
-        throw new NullPointerException();
+        Skydiver retval = null;
+
+        try {
+            for (Skydiver instructor : availableInstructors)
+                if (Objects.equals(instructor.getID(), id))
+                    return instructor;
+
+            if (retval == null)
+                throw new NullPointerException();
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        return retval;
     }
 
     public static void addInstructor(Instructor instructor) {
-        if (availableInstructors.add(instructor) == false)
-            throw new IllegalArgumentException("Error: instructor id already exists");
+        try {
+            if (availableInstructors.add(instructor) == false)
+                throw new IllegalArgumentException("Error: instructor id already exists");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void removeInstructor(String id) {
-        if (availableInstructors
-                .removeIf(instructor -> Objects.equals(instructor.getID(), id)) == false)
-            throw new IllegalArgumentException("Error: instructor id does not exist");
+        try {
+            if (availableInstructors
+                    .removeIf(instructor -> Objects.equals(instructor.getID(), id)) == false)
+                throw new IllegalArgumentException("Error: instructor id does not exist");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     public static Dropzone getDropzone(String id) {
-        for (Dropzone dropzone : dropzones)
-            if (Objects.equals(dropzone.getID(), id))
-                return dropzone;
-        throw new NullPointerException();
+        Dropzone retval = null;
+
+        try {
+            for (Dropzone dropzone : dropzones)
+                if (Objects.equals(dropzone.getID(), id))
+                    return dropzone;
+
+            if (retval == null)
+                throw new NullPointerException();
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        return retval;
     }
 
     public static void addDropzone(Dropzone dropzone) {
-        if (dropzones.add(dropzone) == false)
-            throw new IllegalArgumentException("Error: dropzone id already exists");
+        try {
+            if (dropzones.add(dropzone) == false)
+                throw new IllegalArgumentException("Error: dropzone id already exists");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void removeDropzone(String id) {
-        if (dropzones.removeIf(dropzone -> Objects.equals(dropzone.getID(), id)) == false)
-            throw new IllegalArgumentException("Error: dropzone id does not exist");
+        try {
+            if (dropzones.removeIf(dropzone -> Objects.equals(dropzone.getID(), id)) == false)
+                throw new IllegalArgumentException("Error: dropzone id does not exist");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 }
