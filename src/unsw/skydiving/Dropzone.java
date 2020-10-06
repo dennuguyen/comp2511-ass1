@@ -26,4 +26,16 @@ public class Dropzone {
     public String getDropzone() {
         return this.dropzone;
     }
+
+    public LocalDateTime getStartTime() {
+        return this.start;
+    }
+
+    public LocalDateTime getEndTime() {
+        return this.end;
+    }
+
+    public int getMaxload() {
+        return this.maxload;
+    }
 }
