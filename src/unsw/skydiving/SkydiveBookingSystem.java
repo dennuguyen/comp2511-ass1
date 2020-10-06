@@ -48,14 +48,14 @@ public class SkydiveBookingSystem {
         SkydiveBookingSystem system = new SkydiveBookingSystem();
 
         Scanner sc = new Scanner(System.in);
-
-        while (sc.hasNextLine()) {
-            String line = sc.nextLine();
-            if (!line.trim().equals("")) {
-                JSONObject command = new JSONObject(line);
-                system.processCommand(command);
-            }
-        }
+        System.out.println("in main");
+        // while (sc.hasNextLine()) {
+        // String line = sc.nextLine();
+        // if (!line.trim().equals("")) {
+        // JSONObject command = new JSONObject(line);
+        // system.processCommand(command);
+        // }
+        // }
         sc.close();
     }
 
