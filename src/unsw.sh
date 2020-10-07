@@ -1,3 +1,3 @@
-javac unsw/skydiving/*.java -cp ../lib/json-20200518.jar
-java unsw.skydiving.SkydiveBookingSystem
+javac unsw/skydiving/*.java -cp ../lib/*
+java -cp ../lib/*: unsw.skydiving.SkydiveBookingSystem "$@"
 rm unsw/skydiving/*.class
