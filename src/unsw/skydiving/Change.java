@@ -2,21 +2,30 @@ package unsw.skydiving;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class Change {
 
-    public static Training changeTraining(String id, LocalDateTime start, Instructor trainer,
-            Skydiver trainee) {
-        return new Training(id, start, trainer, trainee);
+    public void changeTraining(JSONObject json) {
+        String id = json.getString(SkydiveBookingSystem.ID);
+        LocalDateTime start = LocalDateTime.parse(json.getString(SkydiveBookingSystem.STARTTIME));
+        // new Training(id, start, trainer, trainee);
     }
 
-    public static FunJump changeFunJump(String id, LocalDateTime start,
-            ArrayList<Skydiver> jumpers) {
-        return new FunJump(id, start, jumpers);
+    public void changeFunJump(JSONObject json) {
+        String id = json.getString(SkydiveBookingSystem.ID);
+        LocalDateTime start = LocalDateTime.parse(json.getString(SkydiveBookingSystem.STARTTIME));
+        JSONArray jsonArray = json.getJSONArray(SkydiveBookingSystem.SKYDIVERS);
+        ArrayList<Skydiver> jumpers = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            String name = (jsonArray.getString(i));
+            jumpers.add(new Skydiver(id, name));
+        }
+        new FunJump(id, start, jumpers);
     }
 
-    public static TandemJump changeTandemJump(Jump jump, String id, LocalDateTime start,
-            Master master, Skydiver passenger) {
-        return new TandemJump(id, start, master, passenger);
+    public void changeTandemJump(JSONObject json) {
+        // new TandemJump(id, start, master, passenger);
     }
 }

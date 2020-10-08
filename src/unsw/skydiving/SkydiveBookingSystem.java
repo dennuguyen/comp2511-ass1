@@ -1,8 +1,8 @@
 package unsw.skydiving;
 
-import java.time.LocalDateTime;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -13,50 +13,123 @@ import org.json.JSONObject;
  */
 public class SkydiveBookingSystem {
 
-    /**
-     * Constructs a skydive booking system. Initially, the system contains no flights, skydivers,
-     * jumps or dropzones
-     */
+    public static final String COMMAND = "command";
+    public static final String FLIGHT = "flight";
+    public static final String SKYDIVER = "skydiver";
+    public static final String REQUEST = "request";
+    public static final String CHANGE = "change";
+    public static final String CANCEL = "cancel";
+    public static final String JUMP_RUN = "jump-run";
+    public static final String TYPE = "type";
+    public static final String FUN = "fun";
+    public static final String TANDEM = "tandem";
+    public static final String TRAINING = "training";
+    public static final String ID = "id";
+    public static final String STARTTIME = "starttime";
+    public static final String ENDTIME = "endtime";
+    public static final String SKYDIVERS = "skydivers";
+    public static final String PASSENGER = "passenger";
+    public static final String TRAINEE = "trainee";
+    public static final String LICENCE = "licence";
+    public static final String STUDENT = "student";
+    public static final String LICENSED_JUMPER = "licensed-jumper";
+    public static final String INSTRUCTOR = "instructor";
+    public static final String TANDEM_MASTER = "tandem-master";
+    public static final String MAXLOAD = "maxload";
+    public static final String DROPZONE = "dropzone";
+
+    private Flight flight;
+    private Register register;
+    private Request request;
+    private Change change;
+    private Cancel cancel;
+    private JumpRun jumprun;
+
     public SkydiveBookingSystem() {
-        // TODO Auto-generated constructor stub
+        this.flight = new Flight();
+        this.register = new Register();
+        this.request = new Request();
+        this.change = new Change();
+        this.cancel = new Cancel();
+        this.jumprun = new JumpRun();
+    }
+
+    private void parseJSON(String file) {
+        Scanner scan = null;
+
+        try {
+            scan = new Scanner(new File(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        while (scan.hasNextLine()) {
+            String line = scan.nextLine();
+            // System.out.println(line);
+            processCommand(new JSONObject(line));
+        }
+
+        scan.close();
     }
 
     private void processCommand(JSONObject json) {
-
-        switch (json.getString("command")) {
-
-            case "flight":
-                String id = json.getString("id");
-                int maxload = json.getInt("maxload");
-                LocalDateTime starttime = LocalDateTime.parse(json.getString("starttime"));
-                LocalDateTime endtime = LocalDateTime.parse(json.getString("endtime"));
-                String dropzone = json.getString("dropzone");
-
-                // TODO - add flight
-
+        switch (json.getString(COMMAND)) {
+            case FLIGHT:
+                flight.createDropZone(json);
                 break;
-
-            case "request":
-
-
+            case SKYDIVER:
+                register.add(json);
+                break;
+            case REQUEST:
+                switch (json.getString(TYPE)) {
+                    case FUN:
+                        request.requestFunJump(json);
+                        break;
+                    case TANDEM:
+                        request.requestTandemJump(json);
+                        break;
+                    case TRAINING:
+                        request.requestTraining(json);
+                        break;
+                }
+                break;
+            case CHANGE:
+                switch (json.getString(TYPE)) {
+                    case FUN:
+                        change.changeFunJump(json);
+                        break;
+                    case TANDEM:
+                        change.changeTandemJump(json);
+                        break;
+                    case TRAINING:
+                        change.changeTraining(json);
+                        break;
+                }
+                break;
+            case CANCEL:
+                cancel.cancel(json);
+                break;
+            case JUMP_RUN:
+                jumprun.generate(json);
+                break;
+            default:
+                System.err.println("Invalid command");
         }
     }
 
-
-
     public static void main(String[] args) {
-        SkydiveBookingSystem system = new SkydiveBookingSystem();
+        SkydiveBookingSystem sys = new SkydiveBookingSystem();
 
-        Scanner sc = new Scanner(System.in);
-        System.out.println("in main");
-        // while (sc.hasNextLine()) {
-        // String line = sc.nextLine();
-        // if (!line.trim().equals("")) {
-        // JSONObject command = new JSONObject(line);
-        // system.processCommand(command);
-        // }
-        // }
-        sc.close();
+        // Get the JSON file name
+        switch (args.length) {
+            case 0:
+                sys.parseJSON(new Scanner(System.in).next());
+                break;
+            case 1:
+                sys.parseJSON(args[0]);
+                break;
+            default:
+                System.err.println("Invalid arguments");
+        }
     }
-
 }

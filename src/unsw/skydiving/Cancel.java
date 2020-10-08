@@ -1,8 +1,10 @@
 package unsw.skydiving;
 
-public final class Cancel {
+import org.json.JSONObject;
 
-    public static void cancel(String id) {
-        Resources.removeJump(id);
+public class Cancel {
+
+    public void cancel(JSONObject json) {
+        Resources.removeJump(json.getString(SkydiveBookingSystem.ID));
     }
 }
