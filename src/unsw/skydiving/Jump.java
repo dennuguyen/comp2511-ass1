@@ -25,9 +25,6 @@ public class Jump {
         return this.start;
     }
 
-    public void jump() {
-    }
-
     public ArrayList<Skydiver> getSkydivers() {
         return null;
     }

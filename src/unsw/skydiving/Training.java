@@ -16,12 +16,6 @@ public class Training extends Jump {
     }
 
     @Override
-    public void jump() {
-        this.trainer.jump();
-        this.trainee.jump();
-    }
-
-    @Override
     public ArrayList<Skydiver> getSkydivers() {
         ArrayList<Skydiver> skydivers = new ArrayList<Skydiver>();
         skydivers.add(this.trainer);

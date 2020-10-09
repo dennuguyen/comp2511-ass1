@@ -17,12 +17,6 @@ public class TandemJump extends Jump {
     }
 
     @Override
-    public void jump() {
-        this.master.jump();
-        this.passenger.jump();
-    }
-
-    @Override
     public ArrayList<Skydiver> getSkydivers() {
         ArrayList<Skydiver> skydivers = new ArrayList<Skydiver>();
         skydivers.add(this.master);

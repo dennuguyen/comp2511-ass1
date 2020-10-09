@@ -13,12 +13,6 @@ public class FunJump extends Jump {
     }
 
     @Override
-    public void jump() {
-        for (Skydiver jumper : this.jumpers)
-            jumper.jump();
-    }
-
-    @Override
     public ArrayList<Skydiver> getSkydivers() {
         return this.jumpers;
     }
