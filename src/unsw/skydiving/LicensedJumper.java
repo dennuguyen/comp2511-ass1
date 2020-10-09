@@ -1,8 +1,8 @@
 package unsw.skydiving;
 
 public class LicensedJumper extends Student {
-    public LicensedJumper(String id, String name) {
-        super(id, name);
+    public LicensedJumper(String id) {
+        super(id);
     }
 
     public void pack() {

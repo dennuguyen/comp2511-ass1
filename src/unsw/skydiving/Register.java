@@ -10,13 +10,19 @@ public class Register {
 
         switch (license) {
             case SkydiveBookingSystem.STUDENT:
-                Resources.addSkydiver(new Student(name, name));
+                Resources.addSkydiver(new Student(name));
+                break;
             case SkydiveBookingSystem.LICENSED_JUMPER:
-                Resources.addSkydiver(new LicensedJumper(name, name));
+                Resources.addSkydiver(new LicensedJumper(name));
+                break;
             case SkydiveBookingSystem.INSTRUCTOR:
-                Resources.addSkydiver(new Instructor(name, name));
+                Resources.addSkydiver(
+                        new Instructor(name, json.getString(SkydiveBookingSystem.DROPZONE)));
+                break;
             case SkydiveBookingSystem.TANDEM_MASTER:
-                Resources.addSkydiver(new Master(name, name));
+                Resources.addSkydiver(
+                        new Master(name, json.getString(SkydiveBookingSystem.DROPZONE)));
+                break;
         }
     }
 }

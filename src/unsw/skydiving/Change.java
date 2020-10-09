@@ -20,7 +20,7 @@ public class Change {
         ArrayList<Skydiver> jumpers = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             String name = (jsonArray.getString(i));
-            jumpers.add(new Skydiver(id, name));
+            jumpers.add(new Skydiver(name));
         }
         new FunJump(id, start, jumpers);
     }

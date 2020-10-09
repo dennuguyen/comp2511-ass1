@@ -2,7 +2,7 @@ package unsw.skydiving;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 public class Training extends Jump {
 
@@ -23,6 +23,9 @@ public class Training extends Jump {
 
     @Override
     public ArrayList<Skydiver> getSkydivers() {
-        return new ArrayList<Skydiver>(Arrays.asList(this.trainer, this.trainee));
+        ArrayList<Skydiver> skydivers = new ArrayList<Skydiver>();
+        skydivers.add(this.trainer);
+        skydivers.add(this.trainee);
+        return skydivers;
     }
 }

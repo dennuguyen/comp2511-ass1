@@ -3,6 +3,7 @@ package unsw.skydiving;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -75,7 +76,7 @@ public class SkydiveBookingSystem {
     private void processCommand(JSONObject json) {
         switch (json.getString(COMMAND)) {
             case FLIGHT:
-                flight.createDropZone(json);
+                flight.createFlight(json);
                 break;
             case SKYDIVER:
                 register.add(json);
@@ -131,5 +132,7 @@ public class SkydiveBookingSystem {
             default:
                 System.err.println("Invalid arguments");
         }
+
+        System.out.println(new JSONArray(Resources.getSkydivers()));
     }
 }

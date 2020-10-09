@@ -1,14 +1,16 @@
 package unsw.skydiving;
 
+import java.util.ArrayList;
+
 public class Skydiver {
 
     protected String id;
-    protected String name;
+    protected ArrayList<TimeSlot> schedule;
     protected Parachute parachute;
 
-    public Skydiver(String id, String name) {
+    public Skydiver(String id) {
         this.id = id;
-        this.name = name;
+        this.schedule = new ArrayList<TimeSlot>();
         this.parachute = null;
     }
 
@@ -16,8 +18,17 @@ public class Skydiver {
         return this.id;
     }
 
-    public String getName() {
-        return this.name;
+    public TimeSlot getFreeTimeSlot(TimeSlot timeslot) {
+        for (TimeSlot slot : schedule) {
+            if (!slot.isInTimeSlot(timeslot)) {
+                return slot;
+            }
+        }
+        return null;
+    }
+
+    public void addTimeSlot(TimeSlot timeslot) {
+        this.schedule.add(timeslot);
     }
 
     public void equipParachute() {

@@ -5,6 +5,12 @@ import org.json.JSONObject;
 public class Cancel {
 
     public void cancel(JSONObject json) {
-        Resources.removeJump(json.getString(SkydiveBookingSystem.ID));
+        String id = json.getString(SkydiveBookingSystem.ID);
+        for (Plane flight : Resources.getFlights())
+            for (Jump jump : flight.getJumps())
+                if (jump.getID() == id) {
+                    flight.removeJump(id);
+                    return;
+                }
     }
 }
