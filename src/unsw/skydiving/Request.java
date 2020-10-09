@@ -11,7 +11,7 @@ public class Request {
         String id = json.getString(SkydiveBookingSystem.ID);
         LocalDateTime start = LocalDateTime.parse(json.getString(SkydiveBookingSystem.STARTTIME));
         String trainee = json.getString(SkydiveBookingSystem.TRAINEE);
-        // Resources.addJump(new Training(id, start, Resources.assignInstructor(), trainee));
+        // Resources.addJump(new Training(id, start, this.assignInstructor(), trainee));
     }
 
     public void requestFunJump(JSONObject json) {
@@ -30,6 +30,14 @@ public class Request {
         String id = json.getString(SkydiveBookingSystem.ID);
         LocalDateTime start = LocalDateTime.parse(json.getString(SkydiveBookingSystem.STARTTIME));
         String passenger = json.getString(SkydiveBookingSystem.PASSENGER);
-        // Resources.addJump(new TandemJump(id, start, Resources.assignMaster(), passenger));
+        // Resources.addJump(new TandemJump(id, start, this.assignMaster(), passenger));
+    }
+
+    private Instructor assignInstructor() {
+        return null;
+    }
+
+    private Master assignMaster() {
+        return null;
     }
 }

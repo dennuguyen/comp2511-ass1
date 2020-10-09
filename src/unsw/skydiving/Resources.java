@@ -5,20 +5,19 @@
 package unsw.skydiving;
 
 import java.util.Objects;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
 public final class Resources {
 
-    private static LinkedHashSet<Jump> jumps;
-    private static LinkedHashSet<Skydiver> skydivers;
-    private static LinkedHashSet<Instructor> availableInstructors;
-    private static LinkedHashSet<Dropzone> dropzones;
+    private static LinkedHashSet<Jump> jumps; // List of jumps
+    private static LinkedHashSet<Skydiver> skydivers; // Register list of skydivers
+    private static ArrayList<Plane> flights; // List of flights
 
     static {
         jumps = new LinkedHashSet<Jump>();
         skydivers = new LinkedHashSet<Skydiver>();
-        availableInstructors = new LinkedHashSet<Instructor>();
-        dropzones = new LinkedHashSet<Dropzone>();
+        flights = new ArrayList<Plane>();
     }
 
     public static Jump getJump(String id) {
@@ -93,13 +92,13 @@ public final class Resources {
         }
     }
 
-    public static Skydiver getAvailableInstructor(String id) {
-        Skydiver retval = null;
+    public static Plane getFlight(String id) {
+        Plane retval = null;
 
         try {
-            for (Skydiver instructor : availableInstructors)
-                if (Objects.equals(instructor.getID(), id))
-                    return instructor;
+            for (Plane plane : flights)
+                if (Objects.equals(plane.getID(), id))
+                    return plane;
 
             if (retval == null)
                 throw new NullPointerException();
@@ -111,56 +110,19 @@ public final class Resources {
         return retval;
     }
 
-    public static void addInstructor(Instructor instructor) {
+    public static void addFlight(Plane plane) {
         try {
-            if (availableInstructors.add(instructor) == false)
-                throw new IllegalArgumentException("Error: instructor id already exists");
+            if (flights.add(plane) == false)
+                throw new IllegalArgumentException("Error: plane id already exists");
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
     }
 
-    public static void removeInstructor(String id) {
+    public static void removeFlight(String id) {
         try {
-            if (availableInstructors
-                    .removeIf(instructor -> Objects.equals(instructor.getID(), id)) == false)
-                throw new IllegalArgumentException("Error: instructor id does not exist");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static Dropzone getDropzone(String id) {
-        Dropzone retval = null;
-
-        try {
-            for (Dropzone dropzone : dropzones)
-                if (Objects.equals(dropzone.getID(), id))
-                    return dropzone;
-
-            if (retval == null)
-                throw new NullPointerException();
-
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        return retval;
-    }
-
-    public static void addDropzone(Dropzone dropzone) {
-        try {
-            if (dropzones.add(dropzone) == false)
-                throw new IllegalArgumentException("Error: dropzone id already exists");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void removeDropzone(String id) {
-        try {
-            if (dropzones.removeIf(dropzone -> Objects.equals(dropzone.getID(), id)) == false)
-                throw new IllegalArgumentException("Error: dropzone id does not exist");
+            if (flights.removeIf(plane -> Objects.equals(plane.getID(), id)) == false)
+                throw new IllegalArgumentException("Error: plane id does not exist");
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }

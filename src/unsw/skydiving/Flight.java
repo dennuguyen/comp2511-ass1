@@ -11,6 +11,6 @@ public class Flight {
         LocalDateTime start = LocalDateTime.parse(json.getString(SkydiveBookingSystem.STARTTIME));
         LocalDateTime end = LocalDateTime.parse(json.getString(SkydiveBookingSystem.ENDTIME));
         String dropzone = json.getString(SkydiveBookingSystem.DROPZONE);
-        Resources.addDropzone(new Dropzone(id, dropzone, start, end, maxload));
+        Resources.addFlight(new Plane(id, dropzone, start, end, maxload));
     }
 }

@@ -1,17 +1,18 @@
 package unsw.skydiving;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
-public class Dropzone {
+public class Plane {
 
     private String id;
     private String dropzone;
     private LocalDateTime start;
     private LocalDateTime end;
     private int maxload;
+    private ArrayList<Jump> jumps;
 
-    public Dropzone(String id, String dropzone, LocalDateTime start, LocalDateTime end,
-            int maxload) {
+    public Plane(String id, String dropzone, LocalDateTime start, LocalDateTime end, int maxload) {
         this.id = id;
         this.dropzone = dropzone;
         this.start = start;
@@ -37,5 +38,9 @@ public class Dropzone {
 
     public int getMaxload() {
         return this.maxload;
+    }
+
+    public void addJump(Jump jump) {
+        this.jumps.add(jump);
     }
 }
