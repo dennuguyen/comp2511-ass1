@@ -1,6 +1,8 @@
 package unsw.skydiving;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TandemJump extends Jump {
 
@@ -17,5 +19,10 @@ public class TandemJump extends Jump {
     public void jump() {
         this.master.jump();
         this.passenger.jump();
+    }
+
+    @Override
+    public ArrayList<Skydiver> getSkydivers() {
+        return new ArrayList<Skydiver>(Arrays.asList(this.master, this.passenger));
     }
 }

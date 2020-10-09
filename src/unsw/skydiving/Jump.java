@@ -1,6 +1,7 @@
 package unsw.skydiving;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Jump {
 
@@ -21,5 +22,9 @@ public class Jump {
     }
 
     public void jump() {
+    }
+
+    public ArrayList<Skydiver> getSkydivers() {
+        return null;
     }
 }

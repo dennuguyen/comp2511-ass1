@@ -17,4 +17,9 @@ public class FunJump extends Jump {
         for (Skydiver jumper : this.jumpers)
             jumper.jump();
     }
+
+    @Override
+    public ArrayList<Skydiver> getSkydivers() {
+        return this.jumpers;
+    }
 }
