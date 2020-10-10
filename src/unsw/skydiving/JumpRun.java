@@ -1,12 +1,15 @@
 package unsw.skydiving;
 
+import java.util.ArrayList;
 import org.json.JSONObject;
 
 public class JumpRun {
 
     public void generate(JSONObject json) {
         String id = json.getString(SkydiveBookingSystem.ID);
-        for (Jump jump : Resources.getFlight(id).getJumps()) {
+        ArrayList<Jump> jumps = Resources.getFlight(id).getJumps();
+        ArrayList<Jump> runs = new ArrayList<Jump>();
+        for (Jump jump : jumps) {
             System.out.println(new JSONObject(jump));
         }
     }

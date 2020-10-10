@@ -76,9 +76,9 @@ public final class Resources {
     }
 
     /**
-     * Gets an available instructor
+     * Gets all instructors
      * 
-     * @return
+     * @return ArrayList<Instructor>
      */
     public static ArrayList<Instructor> getInstructors() {
         ArrayList<Instructor> instructors = new ArrayList<Instructor>();
@@ -89,12 +89,16 @@ public final class Resources {
     }
 
     /**
-     * Gets an available tandem master
+     * Gets all tandem masters
      * 
-     * @return
+     * @return ArrayList<Master>
      */
-    public static Master getTandemMasters() {
-        return null;
+    public static ArrayList<Master> getTandemMasters() {
+        ArrayList<Master> masters = new ArrayList<Master>();
+        for (Skydiver skydiver : skydivers)
+            if (skydiver instanceof Master)
+                masters.add((Master) skydiver);
+        return masters;
     }
 
     /**

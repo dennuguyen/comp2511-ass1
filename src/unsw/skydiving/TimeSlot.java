@@ -13,6 +13,24 @@ public class TimeSlot {
     }
 
     /**
+     * Get start time
+     * 
+     * @return LocalDateTime
+     */
+    public LocalDateTime getStartTime() {
+        return this.start;
+    }
+
+    /**
+     * Get end time
+     * 
+     * @return LocalDateTime
+     */
+    public LocalDateTime getEndTime() {
+        return this.end;
+    }
+
+    /**
      * Checks if an instance of time is within the timeslot
      * 
      * @param time

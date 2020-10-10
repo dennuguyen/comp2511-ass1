@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public class Jump {
 
-    public final int BRIEF_TIME = 5;
-    public final int PACK_TIME = 10;
-    public final int DEBRIEF_TIME = 15;
+    public static final int BRIEF_TIME = 5;
+    public static final int PACK_TIME = 10;
+    public static final int DEBRIEF_TIME = 15;
 
     protected String id;
     protected LocalDateTime start;

@@ -33,7 +33,7 @@ public class SkydiveBookingSystem {
     public static final String TRAINEE = "trainee";
     public static final String LICENCE = "licence";
     public static final String STUDENT = "student";
-    public static final String LICENSED_JUMPER = "licensed-jumper";
+    public static final String LICENCED_JUMPER = "licenced-jumper";
     public static final String INSTRUCTOR = "instructor";
     public static final String TANDEM_MASTER = "tandem-master";
     public static final String MAXLOAD = "maxload";
