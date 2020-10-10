@@ -133,6 +133,7 @@ public class SkydiveBookingSystem {
                 System.err.println("Invalid arguments");
         }
 
-        System.out.println(new JSONArray(Resources.getSkydivers()));
+        // System.out.println(new JSONArray(Resources.getSkydivers()));
+        // System.out.println(new JSONArray(Resources.getFlights()));
     }
 }

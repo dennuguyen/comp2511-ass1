@@ -26,17 +26,17 @@ public class Request {
             LocalDateTime flightStart = plane.getTimeSlot().start;
             LocalDateTime flightEnd = plane.getTimeSlot().end;
 
-            // Find a suitable instructor
-            for (Instructor trainer : Resources.getInstructors()) {
+            // Jump start must be after plane start
+            if (start.isAfter(flightStart)) {
 
-                // Instructor is available
-                if (trainer.getFreeTimeSlot(new TimeSlot(flightStart, flightEnd)) != null) {
+                // Check maxload requirement
+                if (2 + plane.getCurrentLoad() <= plane.getMaxload()) {
 
-                    // Jump start must be after plane start
-                    if (start.isAfter(flightStart)) {
+                    // Find a suitable instructor for flight
+                    for (Instructor trainer : Resources.getInstructors()) {
 
-                        // Check maxload requirement
-                        if (2 + plane.getCurrentLoad() <= plane.getMaxload()) {
+                        // Instructor is available
+                        if (!plane.getTimeSlot().isInTimeSlot(trainer.getSchedule())) {
 
                             Jump jump = new Training(id, start, trainer, trainee);
 
@@ -48,49 +48,55 @@ public class Request {
                                     flightEnd.plusMinutes(jump.DEBRIEF_TIME + jump.PACK_TIME)));
                             trainee.addTimeSlot(new TimeSlot(flightStart,
                                     flightEnd.plusMinutes(jump.DEBRIEF_TIME)));
-                            break;
+                            return;
                         }
                     }
                 }
             }
         }
+
     }
 
     public void requestFunJump(JSONObject json) {
-        // // Unpack the json
-        // String id = json.getString(SkydiveBookingSystem.ID);
-        // LocalDateTime start =
-        // LocalDateTime.parse(json.getString(SkydiveBookingSystem.STARTTIME));
-        // JSONArray jumperArray = json.getJSONArray(SkydiveBookingSystem.SKYDIVERS);
+        // Unpack the json
+        String id = json.getString(SkydiveBookingSystem.ID);
+        LocalDateTime start = LocalDateTime.parse(json.getString(SkydiveBookingSystem.STARTTIME));
+        JSONArray jumperArray = json.getJSONArray(SkydiveBookingSystem.SKYDIVERS);
 
-        // // Get jumpers
-        // ArrayList<Skydiver> jumpers = new ArrayList<Skydiver>();
-        // for (int i = 0; i < jumperArray.length(); i++) {
-        // String name = (jumperArray.getString(i));
-        // jumpers.add(Resources.getSkydiver(name));
-        // }
-        // FunJump jump = new FunJump(id, start, jumpers);
+        // Get jumpers
+        ArrayList<Skydiver> jumpers = new ArrayList<Skydiver>();
+        for (int i = 0; i < jumperArray.length(); i++) {
+            String name = (jumperArray.getString(i));
+            jumpers.add(Resources.getSkydiver(name));
+        }
 
-        // // Find a suitable flight
-        // for (Plane plane : Resources.getFlights()) {
+        System.out.println(jumpers);
 
-        // LocalDateTime flightStart = plane.getTimeSlot().start;
-        // LocalDateTime flightEnd = plane.getTimeSlot().end;
+        // Find a suitable flight
+        for (Plane plane : Resources.getFlights()) {
 
-        // // Jump start must be after plane start
-        // if (start.isAfter(plane.getTimeSlot().start))
-        // // Check maxload requirement
-        // if (jump.getSkydivers().size() + plane.getCurrentLoad() <= plane.getMaxload()) {
-        // // Add jump to flight
-        // plane.addJump(jump);
+            LocalDateTime flightStart = plane.getTimeSlot().start;
+            LocalDateTime flightEnd = plane.getTimeSlot().end;
 
-        // // Add timeslot to skydiver schedules
-        // for (Skydiver jumper : jumpers)
-        // jumper.addTimeSlot(
-        // new TimeSlot(flightStart, flightEnd.plusMinutes(jump.PACK_TIME)));
-        // break;
-        // }
-        // }
+            // Jump start must be after plane start
+            if (start.isAfter(flightStart)) {
+
+                // Check maxload requirement
+                if (jumpers.size() + plane.getCurrentLoad() <= plane.getMaxload()) {
+
+                    FunJump jump = new FunJump(id, start, jumpers);
+
+                    // Add jump to flight
+                    plane.addJump(jump);
+
+                    // Add timeslot to skydiver schedules
+                    for (Skydiver jumper : jumpers)
+                        jumper.addTimeSlot(
+                                new TimeSlot(flightStart, flightEnd.plusMinutes(jump.PACK_TIME)));
+                    return;
+                }
+            }
+        }
     }
 
     public void requestTandemJump(JSONObject json) {

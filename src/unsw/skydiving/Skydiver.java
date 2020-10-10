@@ -16,13 +16,8 @@ public class Skydiver {
         return this.id;
     }
 
-    public TimeSlot getFreeTimeSlot(TimeSlot timeslot) {
-        for (TimeSlot slot : schedule) {
-            if (!slot.isInTimeSlot(timeslot)) {
-                return slot;
-            }
-        }
-        return null;
+    public ArrayList<TimeSlot> getSchedule() {
+        return this.schedule;
     }
 
     public void addTimeSlot(TimeSlot timeslot) {
