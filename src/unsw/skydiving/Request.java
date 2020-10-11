@@ -39,8 +39,8 @@ public class Request {
             LocalDateTime flightStart = plane.getTimeSlot().getStartTime();
             LocalDateTime flightEnd = plane.getTimeSlot().getEndTime();
 
-            // Jump start must be after plane start
-            if (start.isAfter(flightStart)) {
+            // Jump start must be before plane start
+            if (start.isBefore(flightStart)) {
 
                 // Check maxload requirement
                 if (2 + plane.getCurrentLoad() <= plane.getMaxload()) {
@@ -51,7 +51,7 @@ public class Request {
                         // Instructor is available
                         if (!plane.getTimeSlot().clashes(trainer.getSchedule())) {
 
-                            Training jump = new Training(id, trainer, (Student) trainee);
+                            Training jump = new Training(id, trainer, trainee);
 
                             // Add jump to flight
                             plane.addJump(jump);
@@ -59,8 +59,13 @@ public class Request {
                             // Add timeslot to skydiver schedules
                             trainer.addTimeSlot(new TimeSlot(flightStart,
                                     flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
-                            trainee.addTimeSlot(new TimeSlot(flightStart,
-                                    flightEnd.plusMinutes(Jump.DEBRIEF_TIME)));
+                            if (trainee instanceof Student) {
+                                System.out.println("HERHEHHRHERE");
+                                trainee.addTimeSlot(new TimeSlot(flightStart,
+                                        flightEnd.plusMinutes(Jump.DEBRIEF_TIME)));
+                            } else
+                                trainee.addTimeSlot(new TimeSlot(flightStart,
+                                        flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
                             return;
                         }
                     }
@@ -97,8 +102,8 @@ public class Request {
             LocalDateTime flightStart = plane.getTimeSlot().getStartTime();
             LocalDateTime flightEnd = plane.getTimeSlot().getEndTime();
 
-            // Jump start must be after plane start
-            if (start.isAfter(flightStart)) {
+            // Jump start must be before plane start
+            if (start.isBefore(flightStart)) {
 
                 // Check maxload requirement
                 if (jumpers.size() + plane.getCurrentLoad() <= plane.getMaxload()) {
@@ -110,8 +115,8 @@ public class Request {
 
                     // Add timeslot to skydiver schedules
                     for (Skydiver jumper : jumpers)
-                        jumper.addTimeSlot(
-                                new TimeSlot(flightStart, flightEnd.plusMinutes(Jump.PACK_TIME)));
+                        jumper.addTimeSlot(new TimeSlot(flightStart,
+                                flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
                     return;
                 }
             }
@@ -142,8 +147,8 @@ public class Request {
             LocalDateTime flightStart = plane.getTimeSlot().getStartTime();
             LocalDateTime flightEnd = plane.getTimeSlot().getEndTime();
 
-            // Jump start must be after plane start
-            if (start.plusMinutes(Jump.BRIEF_TIME).isAfter(flightStart)) {
+            // Flight must be after jump start + briefing time
+            if (flightStart.isAfter(start.plusMinutes(Jump.BRIEF_TIME))) {
 
                 // Check maxload requirement
                 if (2 + plane.getCurrentLoad() <= plane.getMaxload()) {
@@ -160,10 +165,11 @@ public class Request {
                             plane.addJump(jump);
 
                             // Add timeslot to skydiver schedules
-                            master.addTimeSlot(new TimeSlot(flightStart,
-                                    flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
-                            passenger.addTimeSlot(new TimeSlot(flightStart,
-                                    flightEnd.plusMinutes(Jump.DEBRIEF_TIME)));
+                            master.addTimeSlot(
+                                    new TimeSlot(flightStart.minusMinutes(Jump.BRIEF_TIME),
+                                            flightEnd.plusMinutes(Jump.PACK_TIME)));
+                            passenger.addTimeSlot(new TimeSlot(
+                                    flightStart.minusMinutes(Jump.BRIEF_TIME), flightEnd));
                             return;
                         }
                     }

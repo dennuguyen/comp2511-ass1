@@ -22,7 +22,7 @@ public class Change {
      * @param json
      */
     public void changeTraining(JSONObject json) {
-        // String id = json.getString(SkydiveBookingSystem.ID);
+        String id = json.getString(SkydiveBookingSystem.ID);
         // LocalDateTime start =
         // LocalDateTime.parse(json.getString(SkydiveBookingSystem.STARTTIME));
         // new Training(id, start, trainer, trainee);

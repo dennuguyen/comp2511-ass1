@@ -1,5 +1,5 @@
 /**
- * Training is a type of Jump with a trainer of type Instructor and trainee of type Student
+ * Training is a type of Jump with a trainer of type Instructor and trainee of any class
  */
 package unsw.skydiving;
 
@@ -8,9 +8,9 @@ import java.util.ArrayList;
 public class Training extends Jump {
 
     private Instructor trainer;
-    private Student trainee;
+    private Skydiver trainee;
 
-    public Training(String id, Instructor trainer, Student trainee) {
+    public Training(String id, Instructor trainer, Skydiver trainee) {
         super(id);
         this.trainer = trainer;
         this.trainee = trainee;
