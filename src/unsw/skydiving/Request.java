@@ -4,6 +4,8 @@
 
 package unsw.skydiving;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import org.json.JSONArray;
@@ -11,10 +13,37 @@ import org.json.JSONObject;
 
 public class Request {
 
+    private FileWriter outputFile;
     private Resources resources;
 
-    Request(Resources resources) {
+    Request(FileWriter outputFile, Resources resources) {
+        this.outputFile = outputFile;
         this.resources = resources;
+    }
+
+    /**
+     * Helper function to write Request output
+     * 
+     * @param success
+     * @param plane
+     */
+    private void writeOutput(boolean success, Plane plane) {
+        try {
+            JSONObject output = new JSONObject();
+            if (success == true) {
+                output.put("flight", plane.getID());
+                output.put("dropzone", plane.getDropzone());
+                output.put("status", "success");
+            } else {
+                output.put("status", "rejected");
+            }
+
+            this.outputFile.write(output.toString(4) + "\n");
+            this.outputFile.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -25,6 +54,7 @@ public class Request {
      * @param json
      */
     public void requestTraining(JSONObject json) {
+
         // Unpack the json
         String id = json.getString(SkydiveBookingSystem.ID);
         LocalDateTime start = LocalDateTime.parse(json.getString(SkydiveBookingSystem.STARTTIME));
@@ -60,19 +90,20 @@ public class Request {
                             trainer.addTimeSlot(new TimeSlot(flightStart,
                                     flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
                             if (trainee instanceof Student) {
-                                System.out.println("HERHEHHRHERE");
                                 trainee.addTimeSlot(new TimeSlot(flightStart,
                                         flightEnd.plusMinutes(Jump.DEBRIEF_TIME)));
                             } else
                                 trainee.addTimeSlot(new TimeSlot(flightStart,
                                         flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
+
+                            this.writeOutput(true, plane);
                             return;
                         }
                     }
                 }
             }
         }
-
+        this.writeOutput(false, null);
         return;
     }
 
@@ -117,11 +148,13 @@ public class Request {
                     for (Skydiver jumper : jumpers)
                         jumper.addTimeSlot(new TimeSlot(flightStart,
                                 flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
+
+                    this.writeOutput(true, plane);
                     return;
                 }
             }
         }
-
+        this.writeOutput(false, null);
         return;
     }
 
@@ -170,13 +203,15 @@ public class Request {
                                             flightEnd.plusMinutes(Jump.PACK_TIME)));
                             passenger.addTimeSlot(new TimeSlot(
                                     flightStart.minusMinutes(Jump.BRIEF_TIME), flightEnd));
+
+                            this.writeOutput(true, plane);
                             return;
                         }
                     }
                 }
             }
         }
-
+        this.writeOutput(false, null);
         return;
     }
 }

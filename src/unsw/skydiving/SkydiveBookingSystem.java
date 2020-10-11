@@ -5,7 +5,9 @@
 package unsw.skydiving;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,11 +54,11 @@ public class SkydiveBookingSystem {
     private Cancel cancel;
     private JumpRun jumprun;
 
-    public SkydiveBookingSystem() {
+    public SkydiveBookingSystem(FileWriter outputFile) {
         Resources resources = new Resources();
         this.flight = new Flight(resources);
         this.register = new Register(resources);
-        this.request = new Request(resources);
+        this.request = new Request(outputFile, resources);
         this.change = new Change(resources);
         this.cancel = new Cancel(resources);
         this.jumprun = new JumpRun(resources);
@@ -141,21 +143,44 @@ public class SkydiveBookingSystem {
      * @param args
      */
     public static void main(String[] args) {
-        SkydiveBookingSystem sys = new SkydiveBookingSystem();
 
-        // Get the JSON file name
+        FileWriter outputFile = null;
+        String outputFileName = null;
+        String inputFileName = null;
+
+        // Get file names
         switch (args.length) {
             case 0:
-                sys.parseJSON(new Scanner(System.in).next());
+                inputFileName = new Scanner(System.in).next();
+                outputFileName = new Scanner(System.in).next();
                 break;
             case 1:
-                sys.parseJSON(args[0]);
+                inputFileName = args[0];
+                outputFileName = "../sample.json";
                 break;
+            case 2:
+                inputFileName = args[0];
+                outputFileName = args[1];
             default:
                 System.err.println("Invalid arguments");
         }
 
-        // System.out.println(new JSONArray(Resources.getSkydivers()));
-        // System.out.println(new JSONArray(Resources.getFlights()));
+        // Open output file
+        try {
+            outputFile = new FileWriter(outputFileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Init the skydive booking system
+        SkydiveBookingSystem sys = new SkydiveBookingSystem(outputFile);
+        sys.parseJSON(inputFileName);
+
+        // Close output file
+        try {
+            outputFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

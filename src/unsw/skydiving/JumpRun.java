@@ -4,14 +4,18 @@
 
 package unsw.skydiving;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import org.json.JSONObject;
 
 public class JumpRun {
 
+    private FileWriter outputFile;
     private Resources resources;
 
-    public JumpRun(Resources resources) {
+    public JumpRun(FileWriter outputFile, Resources resources) {
+        this.outputFile = outputFile;
         this.resources = resources;
     }
 
@@ -23,11 +27,12 @@ public class JumpRun {
     public void generate(JSONObject json) {
         String id = json.getString(SkydiveBookingSystem.ID);
         ArrayList<Jump> jumps = resources.getFlight(id).getJumps();
-        System.out.println(new JSONObject(resources.getFlight(id)));
-        System.out.println();
-        ArrayList<Jump> runs = new ArrayList<Jump>();
-        for (Jump jump : jumps) {
-            // System.out.println(new JSONObject(jump));
-        }
+
+        // try {
+        // JSONObject output = new JSONObject();
+        // output.put("")
+        // } catch (IOException e) {
+        // e.printStackTrace();
+        // }
     }
 }
