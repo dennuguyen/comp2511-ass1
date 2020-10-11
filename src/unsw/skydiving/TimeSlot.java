@@ -1,11 +1,16 @@
+/**
+ * TimeSlot is a collection of a start and end LocalDateTime with convenient clashes methods to
+ * determine overlapping times
+ */
 package unsw.skydiving;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class TimeSlot {
-    LocalDateTime start;
-    LocalDateTime end;
+
+    private LocalDateTime start;
+    private LocalDateTime end;
 
     public TimeSlot(LocalDateTime start, LocalDateTime end) {
         this.start = start;
@@ -15,7 +20,7 @@ public class TimeSlot {
     /**
      * Get start time
      * 
-     * @return LocalDateTime
+     * @return start: LocalDateTime
      */
     public LocalDateTime getStartTime() {
         return this.start;
@@ -24,7 +29,7 @@ public class TimeSlot {
     /**
      * Get end time
      * 
-     * @return LocalDateTime
+     * @return end: LocalDateTime
      */
     public LocalDateTime getEndTime() {
         return this.end;
@@ -34,9 +39,9 @@ public class TimeSlot {
      * Checks if an instance of time is within the timeslot
      * 
      * @param time
-     * @return
+     * @return boolean
      */
-    public boolean isInTimeSlot(LocalDateTime time) {
+    public boolean clashes(LocalDateTime time) {
         return this.start.isBefore(time) && this.end.isAfter(time);
     }
 
@@ -44,9 +49,9 @@ public class TimeSlot {
      * Checks if a given timeslot overlaps with the timeslot
      * 
      * @param timeslot
-     * @return
+     * @return boolean
      */
-    public boolean isInTimeSlot(TimeSlot timeslot) {
+    public boolean clashes(TimeSlot timeslot) {
         return this.start.isBefore(timeslot.end) && timeslot.start.isBefore(this.end);
     }
 
@@ -54,11 +59,11 @@ public class TimeSlot {
      * Checks if an array of timeslots overlaps with the timeslot
      * 
      * @param timeslots
-     * @return
+     * @return boolean
      */
-    public boolean isInTimeSlot(ArrayList<TimeSlot> timeslots) {
+    public boolean clashes(ArrayList<TimeSlot> timeslots) {
         for (TimeSlot timeslot : timeslots)
-            if (isInTimeSlot(timeslot))
+            if (clashes(timeslot))
                 return true;
         return false;
     }

@@ -1,15 +1,17 @@
+/**
+ * Training is a type of Jump with a trainer of type Instructor and trainee of type Student
+ */
 package unsw.skydiving;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Training extends Jump {
 
     private Instructor trainer;
-    private Skydiver trainee;
+    private Student trainee;
 
-    public Training(String id, LocalDateTime start, Instructor trainer, Skydiver trainee) {
-        super(id, start);
+    public Training(String id, Instructor trainer, Student trainee) {
+        super(id);
         this.trainer = trainer;
         this.trainee = trainee;
     }

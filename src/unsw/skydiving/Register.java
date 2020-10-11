@@ -1,25 +1,40 @@
+/**
+ * Register commands handler
+ */
+
 package unsw.skydiving;
 
 import org.json.JSONObject;
 
 public class Register {
 
+    Resources resources;
+
+    public Register(Resources resources) {
+        this.resources = resources;
+    }
+
+    /**
+     * Extracts the json fields and creates a Skydiver object to be passed to the resource handler
+     * 
+     * @param json
+     */
     public void add(JSONObject json) {
         String name = json.getString(SkydiveBookingSystem.SKYDIVER);
         String license = json.getString(SkydiveBookingSystem.LICENCE);
         switch (license) {
             case SkydiveBookingSystem.STUDENT:
-                Resources.addSkydiver(new Student(name));
+                resources.addSkydiver(new Student(name));
                 break;
             case SkydiveBookingSystem.LICENCED_JUMPER:
-                Resources.addSkydiver(new LicensedJumper(name));
+                resources.addSkydiver(new LicensedJumper(name));
                 break;
             case SkydiveBookingSystem.INSTRUCTOR:
-                Resources.addSkydiver(
+                resources.addSkydiver(
                         new Instructor(name, json.getString(SkydiveBookingSystem.DROPZONE)));
                 break;
             case SkydiveBookingSystem.TANDEM_MASTER:
-                Resources.addSkydiver(
+                resources.addSkydiver(
                         new Master(name, json.getString(SkydiveBookingSystem.DROPZONE)));
                 break;
         }

@@ -1,6 +1,8 @@
+/**
+ * Jump class
+ */
 package unsw.skydiving;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Jump {
@@ -10,21 +12,25 @@ public class Jump {
     public static final int DEBRIEF_TIME = 15;
 
     protected String id;
-    protected LocalDateTime start;
 
-    public Jump(String id, LocalDateTime start) {
+    public Jump(String id) {
         this.id = id;
-        this.start = start;
     }
 
+    /**
+     * Gets the id of the Jump
+     * 
+     * @return id: String
+     */
     public String getID() {
         return this.id;
     }
 
-    public LocalDateTime getStartTime() {
-        return this.start;
-    }
-
+    /**
+     * Gets the skydivers on this Jump
+     * 
+     * @return ArrayList<Skydiver>
+     */
     public ArrayList<Skydiver> getSkydivers() {
         return null;
     }

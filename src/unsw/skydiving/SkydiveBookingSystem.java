@@ -1,3 +1,7 @@
+/**
+ * Core of skydive booking system.
+ */
+
 package unsw.skydiving;
 
 import java.io.File;
@@ -14,6 +18,7 @@ import org.json.JSONObject;
  */
 public class SkydiveBookingSystem {
 
+    /* Constant strings to extract JSON fields */
     public static final String COMMAND = "command";
     public static final String FLIGHT = "flight";
     public static final String SKYDIVER = "skydiver";
@@ -39,6 +44,7 @@ public class SkydiveBookingSystem {
     public static final String MAXLOAD = "maxload";
     public static final String DROPZONE = "dropzone";
 
+    /* Command handlers */
     private Flight flight;
     private Register register;
     private Request request;
@@ -47,14 +53,20 @@ public class SkydiveBookingSystem {
     private JumpRun jumprun;
 
     public SkydiveBookingSystem() {
-        this.flight = new Flight();
-        this.register = new Register();
-        this.request = new Request();
-        this.change = new Change();
-        this.cancel = new Cancel();
-        this.jumprun = new JumpRun();
+        Resources resources = new Resources();
+        this.flight = new Flight(resources);
+        this.register = new Register(resources);
+        this.request = new Request(resources);
+        this.change = new Change(resources);
+        this.cancel = new Cancel(resources);
+        this.jumprun = new JumpRun(resources);
     }
 
+    /**
+     * JSON file is scanned and broken into their JSON objects
+     * 
+     * @param file
+     */
     private void parseJSON(String file) {
         Scanner scan = null;
 
@@ -73,6 +85,11 @@ public class SkydiveBookingSystem {
         scan.close();
     }
 
+    /**
+     * Commands are passed onto their respective command handlers
+     * 
+     * @param json
+     */
     private void processCommand(JSONObject json) {
         switch (json.getString(COMMAND)) {
             case FLIGHT:
@@ -118,6 +135,11 @@ public class SkydiveBookingSystem {
         }
     }
 
+    /**
+     * Main function takes a file from command line either through System.in or args
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         SkydiveBookingSystem sys = new SkydiveBookingSystem();
 

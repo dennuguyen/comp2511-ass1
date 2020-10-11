@@ -1,5 +1,5 @@
 /**
- * Resource manager to handle flights and skydivers
+ * Resource manager to handle this.flights and this.skydivers
  */
 
 package unsw.skydiving;
@@ -11,40 +11,66 @@ import java.util.LinkedHashSet;
 
 public final class Resources {
 
-    private static LinkedHashSet<Skydiver> skydivers; // Register of skydivers
-    private static ArrayList<Plane> flights; // List of flights
+    private LinkedHashSet<Skydiver> skydivers; // Register of this.skydivers
+    private ArrayList<Plane> flights; // List of this.flights
 
-    static {
-        skydivers = new LinkedHashSet<>();
-        flights = new ArrayList<>();
+    public Resources() {
+        this.skydivers = new LinkedHashSet<>();
+        this.flights = new ArrayList<>();
     }
 
-    public static LinkedHashSet<Skydiver> getSkydivers() {
-        return skydivers;
+    public LinkedHashSet<Skydiver> getSkydivers() {
+        return this.skydivers;
     }
 
     /**
      * Get skydiver from resources
      * 
      * @param id
-     * @return Skydiver
+     * @return skydiver: Skydiver
      */
-    public static Skydiver getSkydiver(String id) {
-        Skydiver retval = null;
+    public Skydiver getSkydiver(String id) {
+        Skydiver skydiver = null;
 
         try {
-            for (Skydiver skydiver : skydivers)
-                if (Objects.equals(skydiver.getID(), id))
-                    return skydiver;
+            for (Skydiver jumper : this.skydivers)
+                if (Objects.equals(jumper.getID(), id))
+                    skydiver = jumper;
 
-            if (retval == null)
+            if (skydiver == null)
                 throw new NullPointerException();
 
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
-        return retval;
+        return skydiver;
+    }
+
+    /**
+     * Gets all instructors
+     * 
+     * @return instructors: ArrayList<Instructor>
+     */
+    public ArrayList<Instructor> getInstructors() {
+        ArrayList<Instructor> instructors = new ArrayList<Instructor>();
+        for (Skydiver skydiver : this.skydivers)
+            if (skydiver instanceof Instructor)
+                instructors.add((Instructor) skydiver);
+        return instructors;
+    }
+
+    /**
+     * Gets all tandem masters
+     * 
+     * @return masters: ArrayList<Master>
+     */
+    public ArrayList<Master> getTandemMasters() {
+        ArrayList<Master> masters = new ArrayList<Master>();
+        for (Skydiver skydiver : this.skydivers)
+            if (skydiver instanceof Master)
+                masters.add((Master) skydiver);
+        return masters;
     }
 
     /**
@@ -52,9 +78,9 @@ public final class Resources {
      * 
      * @param skydiver
      */
-    public static void addSkydiver(Skydiver skydiver) {
+    public void addSkydiver(Skydiver skydiver) {
         try {
-            if (skydivers.add(skydiver) == false)
+            if (this.skydivers.add(skydiver) == false)
                 throw new IllegalArgumentException("Error: skydiver id already exists");
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -66,9 +92,9 @@ public final class Resources {
      * 
      * @param id
      */
-    public static void removeSkydiver(String id) {
+    public void removeSkydiver(String id) {
         try {
-            if (skydivers.removeIf(skydiver -> Objects.equals(skydiver.getID(), id)) == false)
+            if (this.skydivers.removeIf(skydiver -> Objects.equals(skydiver.getID(), id)) == false)
                 throw new IllegalArgumentException("Error: skydiver id does not exist");
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -76,62 +102,36 @@ public final class Resources {
     }
 
     /**
-     * Gets all instructors
-     * 
-     * @return ArrayList<Instructor>
-     */
-    public static ArrayList<Instructor> getInstructors() {
-        ArrayList<Instructor> instructors = new ArrayList<Instructor>();
-        for (Skydiver skydiver : skydivers)
-            if (skydiver instanceof Instructor)
-                instructors.add((Instructor) skydiver);
-        return instructors;
-    }
-
-    /**
-     * Gets all tandem masters
-     * 
-     * @return ArrayList<Master>
-     */
-    public static ArrayList<Master> getTandemMasters() {
-        ArrayList<Master> masters = new ArrayList<Master>();
-        for (Skydiver skydiver : skydivers)
-            if (skydiver instanceof Master)
-                masters.add((Master) skydiver);
-        return masters;
-    }
-
-    /**
      * Get flight from resources
      * 
      * @param id
-     * @return Plane
+     * @return flight: Plane
      */
-    public static Plane getFlight(String id) {
-        Plane retval = null;
+    public Plane getFlight(String id) {
+        Plane flight = null;
 
         try {
-            for (Plane plane : flights)
+            for (Plane plane : this.flights)
                 if (Objects.equals(plane.getID(), id))
-                    return plane;
+                    flight = plane;
 
-            if (retval == null)
+            if (flight == null)
                 throw new NullPointerException();
 
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
-        return retval;
+        return flight;
     }
 
     /**
-     * Get all flights from resources
+     * Get all this.flights from resources
      * 
-     * @return ArrayList<Plane>
+     * @return flights: ArrayList<Plane>
      */
-    public static ArrayList<Plane> getFlights() {
-        return flights;
+    public ArrayList<Plane> getFlights() {
+        return this.flights;
     }
 
     /**
@@ -139,9 +139,9 @@ public final class Resources {
      * 
      * @param plane
      */
-    public static void addFlight(Plane plane) {
+    public void addFlight(Plane plane) {
         try {
-            if (flights.add(plane) == false)
+            if (this.flights.add(plane) == false)
                 throw new IllegalArgumentException("Error: plane id already exists");
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -153,9 +153,9 @@ public final class Resources {
      * 
      * @param id
      */
-    public static void removeFlight(String id) {
+    public void removeFlight(String id) {
         try {
-            if (flights.removeIf(plane -> Objects.equals(plane.getID(), id)) == false)
+            if (this.flights.removeIf(plane -> Objects.equals(plane.getID(), id)) == false)
                 throw new IllegalArgumentException("Error: plane id does not exist");
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -163,9 +163,10 @@ public final class Resources {
     }
 
     /**
-     * Sort the flights in chronological order
+     * Sort the this.flights in chronological order
      */
-    public static void sortFlights() {
-        Collections.sort(flights, (a, b) -> a.getTimeSlot().start.compareTo(b.getTimeSlot().start));
+    public void sortFlights() {
+        Collections.sort(this.flights,
+                (a, b) -> a.getTimeSlot().getStartTime().compareTo(b.getTimeSlot().getStartTime()));
     }
 }

@@ -1,19 +1,25 @@
+/**
+ * FunJump is a type of Jump and has a group of jumpers of type LicensedJumper
+ */
+
 package unsw.skydiving;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class FunJump extends Jump {
 
-    private ArrayList<Skydiver> jumpers;
+    private ArrayList<LicensedJumper> jumpers;
 
-    public FunJump(String id, LocalDateTime start, ArrayList<Skydiver> jumpers) {
-        super(id, start);
+    public FunJump(String id, ArrayList<LicensedJumper> jumpers) {
+        super(id);
         this.jumpers = jumpers;
     }
 
     @Override
     public ArrayList<Skydiver> getSkydivers() {
-        return this.jumpers;
+        ArrayList<Skydiver> skydivers = new ArrayList<Skydiver>();
+        for (LicensedJumper jumper : this.jumpers)
+            skydivers.add(jumper);
+        return skydivers;
     }
 }

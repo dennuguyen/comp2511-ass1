@@ -1,3 +1,7 @@
+/**
+ * Instructor is a type of Skydiver with a home dropzone
+ */
+
 package unsw.skydiving;
 
 public class Instructor extends LicensedJumper {
@@ -9,6 +13,11 @@ public class Instructor extends LicensedJumper {
         this.dropzone = dropzone;
     }
 
+    /**
+     * Gets the home dropzone string
+     * 
+     * @return dropzone: String
+     */
     public String getDropzone() {
         return this.dropzone;
     }

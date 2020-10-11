@@ -1,6 +1,9 @@
+/**
+ * TandemJump is a type of Jump which has a tandem master and passenger skydiver
+ */
+
 package unsw.skydiving;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class TandemJump extends Jump {
@@ -8,12 +11,10 @@ public class TandemJump extends Jump {
     private Master master;
     private Skydiver passenger;
 
-    public TandemJump(String id, LocalDateTime start, Master master, Skydiver passenger) {
-        super(id, start);
+    public TandemJump(String id, Master master, Skydiver passenger) {
+        super(id);
         this.master = master;
         this.passenger = passenger;
-        // this.master.addTimeSlot(new TimeSlot(start, start.plusMinutes(5)));
-        // this.passenger.addTimeSlot(new TimeSlot(start, start.plusMinutes(5)));
     }
 
     @Override
