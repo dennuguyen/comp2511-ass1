@@ -61,7 +61,7 @@ public class SkydiveBookingSystem {
         this.request = new Request(outputFile, resources);
         this.change = new Change(resources);
         this.cancel = new Cancel(resources);
-        this.jumprun = new JumpRun(resources);
+        this.jumprun = new JumpRun(outputFile, resources);
     }
 
     /**

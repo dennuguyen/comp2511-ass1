@@ -5,6 +5,9 @@
 package unsw.skydiving;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class FunJump extends Jump {
 
@@ -21,5 +24,23 @@ public class FunJump extends Jump {
         for (LicensedJumper jumper : this.jumpers)
             skydivers.add(jumper);
         return skydivers;
+    }
+
+    @Override
+    public JSONObject getJumpRun() {
+
+        // Sort jumpers by their lexicographical order
+        Collections.sort(this.jumpers, (a, b) -> a.getID().compareTo(b.getID()));
+
+        // Extract names
+        JSONArray sortedJumpers = new JSONArray();
+        for (Skydiver jumper : jumpers)
+            sortedJumpers.put(jumper.getID());
+
+        // Create json entry
+        JSONObject jumpRun = new JSONObject();
+        jumpRun.put("skydivers", sortedJumpers);
+
+        return jumpRun;
     }
 }

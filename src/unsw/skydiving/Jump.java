@@ -4,6 +4,7 @@
 package unsw.skydiving;
 
 import java.util.ArrayList;
+import org.json.JSONObject;
 
 public class Jump {
 
@@ -32,6 +33,15 @@ public class Jump {
      * @return ArrayList<Skydiver>
      */
     public ArrayList<Skydiver> getSkydivers() {
+        return null;
+    }
+
+    /**
+     * Gets the jump run order for this Jump
+     * 
+     * @return JSONObject
+     */
+    public JSONObject getJumpRun() {
         return null;
     }
 }

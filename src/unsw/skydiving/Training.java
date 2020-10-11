@@ -4,6 +4,7 @@
 package unsw.skydiving;
 
 import java.util.ArrayList;
+import org.json.JSONObject;
 
 public class Training extends Jump {
 
@@ -22,5 +23,13 @@ public class Training extends Jump {
         skydivers.add(this.trainer);
         skydivers.add(this.trainee);
         return skydivers;
+    }
+
+    @Override
+    public JSONObject getJumpRun() {
+        JSONObject jumpRun = new JSONObject();
+        jumpRun.put("instructor", this.trainer.getID());
+        jumpRun.put("trainee", this.trainee.getID());
+        return jumpRun;
     }
 }
