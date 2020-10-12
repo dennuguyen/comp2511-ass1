@@ -47,13 +47,23 @@ public class Request {
     }
 
     /**
+     * Function overload for requestTraining to always output command status to outputFile
+     * 
+     * @param json Request command in JSON format
+     */
+    public void requestTraining(JSONObject json) {
+        this.requestTraining(json, true);
+    }
+
+    /**
      * Extracts the json fields and creates a Training object to be passed to the resource handler.
      * Bookkeeping conditions are checked in this request. Skydivers involved in the jump also have
      * their time schedule updated.
      * 
-     * @param json
+     * @param json     Request command in JSON format
+     * @param isOutput Boolean to write success or rejected status
      */
-    public void requestTraining(JSONObject json) {
+    public void requestTraining(JSONObject json, boolean isOutput) {
 
         // Unpack the json
         String id = json.getString(SkydiveBookingSystem.ID);
@@ -96,15 +106,26 @@ public class Request {
                                 trainee.addTimeSlot(new TimeSlot(flightStart,
                                         flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
 
-                            this.writeOutput(true, plane);
+                            if (isOutput == true)
+                                this.writeOutput(true, plane);
                             return;
                         }
                     }
                 }
             }
         }
-        this.writeOutput(false, null);
+        if (isOutput == true)
+            this.writeOutput(false, null);
         return;
+    }
+
+    /**
+     * Function overload for requestFunJump to always output command status to outputFile
+     * 
+     * @param json Request command in JSON format
+     */
+    public void requestFunJump(JSONObject json) {
+        this.requestTraining(json, true);
     }
 
     /**
@@ -112,9 +133,10 @@ public class Request {
      * Bookkeeping conditions are checked in this request. Skydivers involved in the jump also have
      * their time schedule updated.
      * 
-     * @param json
+     * @param json     Request command in JSON format
+     * @param isOutput Boolean to write success or rejected status
      */
-    public void requestFunJump(JSONObject json) {
+    public void requestFunJump(JSONObject json, boolean isOutput) {
         // Unpack the json
         String id = json.getString(SkydiveBookingSystem.ID);
         LocalDateTime start = LocalDateTime.parse(json.getString(SkydiveBookingSystem.STARTTIME));
@@ -149,13 +171,24 @@ public class Request {
                         jumper.addTimeSlot(new TimeSlot(flightStart,
                                 flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
 
-                    this.writeOutput(true, plane);
+                    if (isOutput == true)
+                        this.writeOutput(true, plane);
                     return;
                 }
             }
         }
-        this.writeOutput(false, null);
+        if (isOutput == true)
+            this.writeOutput(false, null);
         return;
+    }
+
+    /**
+     * Function overload for requestTandemJump to always output command status to outputFile
+     * 
+     * @param json Request command in JSON format
+     */
+    public void requestTandemJump(JSONObject json) {
+        this.requestTraining(json, true);
     }
 
     /**
@@ -163,9 +196,10 @@ public class Request {
      * handler. Bookkeeping conditions are checked in this request. Skydivers involved in the jump
      * also have their time schedule updated.
      * 
-     * @param json
+     * @param json     Request command in JSON format
+     * @param isOutput Boolean to write success or rejected status
      */
-    public void requestTandemJump(JSONObject json) {
+    public void requestTandemJump(JSONObject json, boolean isOutput) {
         // Unpack the json
         String id = json.getString(SkydiveBookingSystem.ID);
         LocalDateTime start = LocalDateTime.parse(json.getString(SkydiveBookingSystem.STARTTIME));
@@ -204,14 +238,16 @@ public class Request {
                             passenger.addTimeSlot(new TimeSlot(
                                     flightStart.minusMinutes(Jump.BRIEF_TIME), flightEnd));
 
-                            this.writeOutput(true, plane);
+                            if (isOutput == true)
+                                this.writeOutput(true, plane);
                             return;
                         }
                     }
                 }
             }
         }
-        this.writeOutput(false, null);
+        if (isOutput == true)
+            this.writeOutput(false, null);
         return;
     }
 }
