@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 public final class Resources {
@@ -40,41 +41,82 @@ public final class Resources {
     }
 
     /**
-     * Gets the available instructors in the given timeslot with given dropzone and is not the
-     * booked skydiver
+     * Gets the next instructor
      * 
      * @param timeSlot Time slot of concern
      * @param dropzone Dropzone of concern
      * @param booked   Skydiver to ignore
      * @return instructor or null on failure
      */
-    public Instructor getAvailableInstructor(TimeSlot timeSlot, String dropzone, Skydiver booked) {
+    public Instructor getNextInstructor(TimeSlot timeSlot, String dropzone, Skydiver booked) {
+
+        // Get all available instructors
+        ArrayList<Instructor> instructors = new ArrayList<Instructor>();
         for (Skydiver skydiver : this.skydivers)
             if (skydiver instanceof Instructor)
                 if (Objects.equals(dropzone, ((Instructor) skydiver).getDropzone()))
                     if (!timeSlot.clashes(skydiver.getSchedule()))
                         if (!Objects.equals(skydiver, booked) || booked == null)
-                            return (Instructor) skydiver;
-        return null;
+                            instructors.add((Instructor) skydiver);
+
+        // Sort instructors by jump count
+        Collections.sort(instructors,
+                (a, b) -> Integer.compare(a.getJumpCount(), b.getJumpCount()));
+
+        // Filter instructors for min jump count
+        int min = -1;
+        ArrayList<Instructor> tempInstructors = new ArrayList<Instructor>();
+        for (Iterator<Instructor> i = instructors.iterator(); i.hasNext();) {
+            Instructor instructor = i.next();
+            if (min == -1 || instructor.getJumpCount() < min) {
+                tempInstructors.clear();
+                tempInstructors.add(instructor);
+                min = instructor.getJumpCount();
+            } else if (instructor.getJumpCount() == min)
+                tempInstructors.add(instructor);
+        }
+
+        // Get earliest registered skydiver from filtered list or null otherwise
+        return tempInstructors.isEmpty() ? null : tempInstructors.get(0);
     }
 
     /**
-     * Gets the available tandem masters in the given timeslot with given dropzone and is not the
-     * booked skydiver
+     * Gets the next tandem master
      * 
      * @param timeSlot Time slot of concern
      * @param dropzone Dropzone of concern
      * @param booked   Skydiver to ignore
      * @return tandem master or null on failure
      */
-    public Master getAvailableMaster(TimeSlot timeSlot, String dropzone, Skydiver booked) {
+    public Master getNextMaster(TimeSlot timeSlot, String dropzone, Skydiver booked) {
+
+        // Get all available instructors
+        ArrayList<Master> masters = new ArrayList<Master>();
         for (Skydiver skydiver : this.skydivers)
             if (skydiver instanceof Master)
                 if (Objects.equals(dropzone, ((Master) skydiver).getDropzone()))
                     if (!timeSlot.clashes(skydiver.getSchedule()))
                         if (!Objects.equals(skydiver, booked) || booked == null)
-                            return (Master) skydiver;
-        return null;
+                            masters.add((Master) skydiver);
+
+        // Sort tandem masters by jump count
+        Collections.sort(masters, (a, b) -> Integer.compare(a.getJumpCount(), b.getJumpCount()));
+
+        // Filter instructors for min jump count
+        int min = -1;
+        ArrayList<Master> tempMasters = new ArrayList<Master>();
+        for (Iterator<Master> i = tempMasters.iterator(); i.hasNext();) {
+            Master master = i.next();
+            if (min == -1 || master.getJumpCount() < min) {
+                tempMasters.clear();
+                tempMasters.add(master);
+                min = master.getJumpCount();
+            } else if (master.getJumpCount() == min)
+                tempMasters.add(master);
+        }
+
+        // Get earliest registered skydiver from filtered list or null otherwise
+        return tempMasters.isEmpty() ? null : tempMasters.get(0);
     }
 
     /**
