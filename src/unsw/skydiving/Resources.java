@@ -11,12 +11,15 @@ import java.util.LinkedHashSet;
 
 public final class Resources {
 
-    private LinkedHashSet<Skydiver> skydivers; // Register of this.skydivers
-    private ArrayList<Plane> flights; // List of this.flights
+    private ArrayList<Plane> flights; // List of flights
+    private LinkedHashSet<Skydiver> skydivers; // Register of skydivers
+
+    private ArrayList<Plane> tempFlights; // Temporary List of flights
+    private LinkedHashSet<Skydiver> tempSkydivers; // Temporary register of skydivers
 
     public Resources() {
-        this.skydivers = new LinkedHashSet<>();
         this.flights = new ArrayList<>();
+        this.skydivers = new LinkedHashSet<>();
     }
 
     public LinkedHashSet<Skydiver> getSkydivers() {
@@ -155,7 +158,7 @@ public final class Resources {
      */
     public void removeFlight(String id) {
         try {
-            if (this.flights.removeIf(plane -> Objects.equals(plane.getID(), id)) == false)
+            if (this.flights.removeIf(plane -> Objects.equals(plane.getID(), id)))
                 throw new IllegalArgumentException("Error: plane id does not exist");
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -163,10 +166,28 @@ public final class Resources {
     }
 
     /**
-     * Sort the this.flights in chronological order
+     * Sort the flights in chronological order
      */
     public void sortFlights() {
         Collections.sort(this.flights,
                 (a, b) -> a.getTimeSlot().getStartTime().compareTo(b.getTimeSlot().getStartTime()));
+    }
+
+    /**
+     * Saves the state of resources through a copy into temporaries
+     */
+    public void save() {
+        this.tempFlights = new ArrayList<Plane>(this.flights);
+        this.tempSkydivers = new LinkedHashSet<Skydiver>(this.skydivers);
+    }
+
+    /**
+     * Restores the state of resources from temporaries
+     */
+    public void restore() {
+        this.flights = new ArrayList<Plane>(this.tempFlights);
+        this.skydivers = new LinkedHashSet<Skydiver>(this.tempSkydivers);
+        this.tempFlights.clear();
+        this.tempSkydivers.clear();
     }
 }
