@@ -75,10 +75,10 @@ public class SkydiveBookingSystem {
      * @param file Name of file
      */
     private void parseJSON(String file) {
+        Scanner inputFile = new Scanner(System.in);
         Scanner scan = null;
-
         try {
-            scan = new Scanner(new File(file));
+            scan = new Scanner(new File(inputFile.nextLine()));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -89,6 +89,7 @@ public class SkydiveBookingSystem {
         }
 
         scan.close();
+        inputFile.close();
     }
 
     /**
@@ -150,8 +151,8 @@ public class SkydiveBookingSystem {
 
         FileWriter outputFile = null;
         // String outputFileName = null;
-        Scanner inputFile = new Scanner(System.in);
-        String inputFileName = inputFile.next();
+        // Scanner inputFile = new Scanner(System.in);
+        // String inputFileName = inputFile.toString();
 
         // Get file names
         // switch (args.length) {
@@ -180,13 +181,12 @@ public class SkydiveBookingSystem {
 
         // Init the skydive booking system
         SkydiveBookingSystem sys = new SkydiveBookingSystem(outputFile);
-        sys.parseJSON(inputFileName);
+        sys.parseJSON(null);
 
         // Close output file
         try {
             outputFile.flush();
             outputFile.close();
-            inputFile.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
