@@ -78,28 +78,20 @@ public final class Resources {
      * Add skydiver to resources
      * 
      * @param skydiver skydiver to be handled by resources
+     * @return Indicate success
      */
-    public void addSkydiver(Skydiver skydiver) {
-        try {
-            if (this.skydivers.add(skydiver) == false)
-                throw new IllegalArgumentException("Error: skydiver id already exists");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
+    public boolean addSkydiver(Skydiver skydiver) {
+        return this.skydivers.add(skydiver);
     }
 
     /**
      * Remove skydiver from resources
      * 
      * @param id skydiver to no longer be handled by resources
+     * @return Indicate success
      */
-    public void removeSkydiver(String id) {
-        try {
-            if (this.skydivers.removeIf(skydiver -> Objects.equals(skydiver.getID(), id)) == false)
-                throw new IllegalArgumentException("Error: skydiver id does not exist");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
+    public boolean removeSkydiver(String id) {
+        return this.skydivers.removeIf(skydiver -> Objects.equals(skydiver.getID(), id));
     }
 
     /**
@@ -150,28 +142,20 @@ public final class Resources {
      * Add flight to resources
      * 
      * @param plane plane to be handled by resources
+     * @return Indicate success
      */
-    public void addFlight(Plane plane) {
-        try {
-            if (this.flights.add(plane) == false)
-                throw new IllegalArgumentException("Error: plane id already exists");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
+    public boolean addFlight(Plane plane) {
+        return this.flights.add(plane);
     }
 
     /**
      * Remove flight from resources
      * 
      * @param id plane to no longer be handled by resources
+     * @return Indicate success
      */
-    public void removeFlight(String id) {
-        try {
-            if (this.flights.removeIf(plane -> Objects.equals(plane.getID(), id)))
-                throw new IllegalArgumentException("Error: plane id does not exist");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
+    public boolean removeFlight(String id) {
+        return this.flights.removeIf(plane -> Objects.equals(plane.getID(), id));
     }
 
     /**
