@@ -6,7 +6,6 @@ package unsw.skydiving;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Change {
@@ -66,6 +65,7 @@ public class Change {
         // Cancel jump
         if (cancel.cancel(json) == false) {
             this.writeOutput(false);
+            resources.restore();
             return;
         }
 
@@ -87,6 +87,7 @@ public class Change {
         // Cancel jump
         if (cancel.cancel(json) == false) {
             this.writeOutput(false);
+            resources.restore();
             return;
         }
 
@@ -108,6 +109,7 @@ public class Change {
         // Cancel jump
         if (cancel.cancel(json) == false) {
             this.writeOutput(false);
+            resources.restore();
             return;
         }
 
