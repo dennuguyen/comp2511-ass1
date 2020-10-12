@@ -4,6 +4,7 @@
 
 package unsw.skydiving;
 
+import java.util.Objects;
 import org.json.JSONObject;
 
 public class Cancel {
@@ -17,15 +18,17 @@ public class Cancel {
     /**
      * Finds the jump by its id from all the flights managed by the resource handler
      * 
-     * @param json
+     * @param json Cancel command in JSON format
+     * @return boolean on success or rejected status
      */
-    public void cancel(JSONObject json) {
+    public boolean cancel(JSONObject json) {
         String id = json.getString(SkydiveBookingSystem.ID);
         for (Plane flight : resources.getFlights())
             for (Jump jump : flight.getJumps())
-                if (jump.getID() == id) {
+                if (Objects.equals(jump.getID(), id)) {
                     flight.removeJump(id);
-                    return;
+                    return true;
                 }
+        return false;
     }
 }
