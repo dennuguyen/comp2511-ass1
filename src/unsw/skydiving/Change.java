@@ -69,8 +69,6 @@ public class Change {
             return;
         }
 
-        System.out.println(new JSONArray(resources.getFlights()));
-
         // Request new jump. On failure, restore temporary reference
         if (request.requestTraining(json) == false)
             resources.restore();
