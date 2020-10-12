@@ -56,8 +56,9 @@ public class Change {
      * Cancels and requests a new Training on success, restores old state on failure
      * 
      * @param json Change command in JSON format
+     * @return Indicate success
      */
-    public void changeTraining(JSONObject json) {
+    public boolean changeTraining(JSONObject json) {
 
         // Save state
         resources.save();
@@ -66,20 +67,25 @@ public class Change {
         if (cancel.cancel(json) == false) {
             this.writeOutput(false);
             resources.restore();
-            return;
+            return false;
         }
 
         // Request new jump. On failure, restore temporary reference
-        if (request.requestTraining(json) == false)
+        if (request.requestTraining(json) == false) {
             resources.restore();
+            return false;
+        }
+
+        return true;
     }
 
     /**
      * Cancels and requests a new FunJump on success, restores old state on failure
      * 
      * @param json Change command in JSON format
+     * @return Indicate success
      */
-    public void changeFunJump(JSONObject json) {
+    public boolean changeFunJump(JSONObject json) {
 
         // Save state
         resources.save();
@@ -88,20 +94,25 @@ public class Change {
         if (cancel.cancel(json) == false) {
             this.writeOutput(false);
             resources.restore();
-            return;
+            return false;
         }
 
         // Request new jump. On failure, restore temporary reference
-        if (request.requestFunJump(json) == false)
+        if (request.requestFunJump(json) == false) {
             resources.restore();
+            return false;
+        }
+
+        return true;
     }
 
     /**
      * Cancels and requests a new TandemJump on success, restores old state on failure
      * 
      * @param json Change command in JSON format
+     * @return Indicate success
      */
-    public void changeTandemJump(JSONObject json) {
+    public boolean changeTandemJump(JSONObject json) {
 
         // Save state
         resources.save();
@@ -110,11 +121,15 @@ public class Change {
         if (cancel.cancel(json) == false) {
             this.writeOutput(false);
             resources.restore();
-            return;
+            return false;
         }
 
         // Request new jump. On failure, restore temporary reference
-        if (request.requestTandemJump(json) == false)
+        if (request.requestTandemJump(json) == false) {
             resources.restore();
+            return false;
+        }
+
+        return true;
     }
 }

@@ -1,5 +1,5 @@
 /**
- * Plane has a flight id, dropzone, timeslot for flight, maxload and list of jumps for that flight
+ * Plane has a flight id, dropzone, time slot for flight, maxload and list of jumps for that flight
  */
 
 package unsw.skydiving;
@@ -12,7 +12,7 @@ public class Plane {
 
     private String id;
     private String dropzone;
-    private TimeSlot timeslot;
+    private TimeSlot timeSlot;
     private int maxload;
     private ArrayList<Jump> jumps;
 
@@ -28,7 +28,7 @@ public class Plane {
     public Plane(String id, String dropzone, LocalDateTime start, LocalDateTime end, int maxload) {
         this.id = id;
         this.dropzone = dropzone;
-        this.timeslot = new TimeSlot(null, start, end);
+        this.timeSlot = new TimeSlot(null, start, end);
         this.maxload = maxload;
         this.jumps = new ArrayList<Jump>();
     }
@@ -52,12 +52,12 @@ public class Plane {
     }
 
     /**
-     * Gets the flight timeslot
+     * Gets the flight time slot
      * 
-     * @return timeslot of flight
+     * @return time slot of flight
      */
     public TimeSlot getTimeSlot() {
-        return this.timeslot;
+        return this.timeSlot;
     }
 
     /**

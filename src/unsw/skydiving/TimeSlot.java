@@ -1,5 +1,5 @@
 /**
- * TimeSlot is a collection of a start and end LocalDateTime representing an unavailable timeslot
+ * TimeSlot is a collection of a start and end LocalDateTime representing an unavailable time slot
  * with convenient clashes methods to determine overlapping times
  */
 package unsw.skydiving;
@@ -55,7 +55,7 @@ public class TimeSlot {
     }
 
     /**
-     * Checks if an instance of time is within the timeslot
+     * Checks if an instance of time is within the time slot
      * 
      * @param time
      * @return boolean on existing clash
@@ -65,24 +65,24 @@ public class TimeSlot {
     }
 
     /**
-     * Checks if a given timeslot overlaps with the timeslot
+     * Checks if a given time slot overlaps with the time slot
      * 
-     * @param timeslot
+     * @param timeSlot
      * @return boolean on existing clash
      */
-    public boolean clashes(TimeSlot timeslot) {
-        return this.start.isBefore(timeslot.end) && timeslot.start.isBefore(this.end);
+    public boolean clashes(TimeSlot timeSlot) {
+        return this.start.isBefore(timeSlot.end) && timeSlot.start.isBefore(this.end);
     }
 
     /**
-     * Checks if an array of timeslots overlaps with the timeslot
+     * Checks if an array of time slots overlaps with the time slot
      * 
-     * @param timeslots
+     * @param timeSlots
      * @return boolean on existing clash
      */
-    public boolean clashes(ArrayList<TimeSlot> timeslots) {
-        for (TimeSlot timeslot : timeslots)
-            if (clashes(timeslot))
+    public boolean clashes(ArrayList<TimeSlot> timeSlots) {
+        for (TimeSlot timeSlot : timeSlots)
+            if (clashes(timeSlot))
                 return true;
         return false;
     }

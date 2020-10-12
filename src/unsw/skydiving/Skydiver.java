@@ -40,19 +40,19 @@ public class Skydiver {
     }
 
     /**
-     * Adds timeslot to the skydiver's schedule
+     * Adds time slot to the skydiver's schedule
      * 
-     * @param timeslot Timeslot to add to schedule
+     * @param timeSlot Timeslot to add to schedule
      * @return Indicate success
      */
-    public boolean addTimeSlot(TimeSlot timeslot) {
-        return this.schedule.add(timeslot);
+    public boolean addTimeSlot(TimeSlot timeSlot) {
+        return this.schedule.add(timeSlot);
     }
 
     /**
-     * Remove timeslot from the skydiver's schedule
+     * Remove timeSlot from the skydiver's schedule
      * 
-     * @param timeslot Timeslot to remove from schedule
+     * @param timeSlot Timeslot to remove from schedule
      * @return Indicate success
      */
     public boolean removeTimeSlot(String id) {

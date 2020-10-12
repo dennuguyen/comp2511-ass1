@@ -45,10 +45,10 @@ public final class Resources {
      * 
      * @param timeSlot Time slot of concern
      * @param dropzone Dropzone of concern
-     * @param booked   Skydiver to ignore
+     * @param trainee  Trainee
      * @return instructor or null on failure
      */
-    public Instructor getNextInstructor(TimeSlot timeSlot, String dropzone, Skydiver booked) {
+    public Instructor getNextInstructor(TimeSlot timeSlot, String dropzone, Skydiver trainee) {
 
         // Get all available instructors
         ArrayList<Instructor> instructors = new ArrayList<Instructor>();
@@ -56,7 +56,7 @@ public final class Resources {
             if (skydiver instanceof Instructor)
                 if (Objects.equals(dropzone, ((Instructor) skydiver).getDropzone()))
                     if (!timeSlot.clashes(skydiver.getSchedule()))
-                        if (!Objects.equals(skydiver, booked) || booked == null)
+                        if (trainee == null || !Objects.equals(skydiver, trainee))
                             instructors.add((Instructor) skydiver);
 
         // Sort instructors by jump count
@@ -84,12 +84,12 @@ public final class Resources {
     /**
      * Gets the next tandem master
      * 
-     * @param timeSlot Time slot of concern
-     * @param dropzone Dropzone of concern
-     * @param booked   Skydiver to ignore
+     * @param timeSlot  Time slot of concern
+     * @param dropzone  Dropzone of concern
+     * @param passenger Passenger
      * @return tandem master or null on failure
      */
-    public Master getNextMaster(TimeSlot timeSlot, String dropzone, Skydiver booked) {
+    public Master getNextMaster(TimeSlot timeSlot, String dropzone, Skydiver passenger) {
 
         // Get all available instructors
         ArrayList<Master> masters = new ArrayList<Master>();
@@ -97,7 +97,7 @@ public final class Resources {
             if (skydiver instanceof Master)
                 if (Objects.equals(dropzone, ((Master) skydiver).getDropzone()))
                     if (!timeSlot.clashes(skydiver.getSchedule()))
-                        if (!Objects.equals(skydiver, booked) || booked == null)
+                        if (passenger == null || !Objects.equals(skydiver, passenger))
                             masters.add((Master) skydiver);
 
         // Sort tandem masters by jump count

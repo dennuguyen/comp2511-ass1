@@ -174,7 +174,7 @@ public class Request {
         Training jump = new Training(id, trainer, trainee);
         plane.addJump(jump);
 
-        // Add timeslot to skydiver schedules
+        // Add time slot to skydiver schedules
         trainer.addTimeSlot(new TimeSlot(id, flightStart,
                 flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
         if (trainee instanceof Student)
@@ -231,7 +231,7 @@ public class Request {
         FunJump jump = new FunJump(id, jumpers);
         plane.addJump(jump);
 
-        // Add timeslot to skydiver schedules
+        // Add time slot to skydiver schedules
         for (Skydiver jumper : jumpers)
             jumper.addTimeSlot(
                     new TimeSlot(id, flightStart, flightEnd.plusMinutes(Jump.PACK_TIME)));
@@ -290,7 +290,7 @@ public class Request {
         TandemJump jump = new TandemJump(id, master, passenger);
         plane.addJump(jump);
 
-        // Add timeslot to skydiver schedules
+        // Add time slot to skydiver schedules
         master.addTimeSlot(new TimeSlot(id, flightStart.minusMinutes(Jump.BRIEF_TIME),
                 flightEnd.plusMinutes(Jump.PACK_TIME)));
         passenger.addTimeSlot(
