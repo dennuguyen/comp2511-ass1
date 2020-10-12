@@ -29,8 +29,8 @@ public final class Resources {
     /**
      * Get skydiver from resources
      * 
-     * @param id
-     * @return skydiver: Skydiver
+     * @param id skydiver id
+     * @return skydiver
      */
     public Skydiver getSkydiver(String id) {
         Skydiver skydiver = null;
@@ -53,7 +53,7 @@ public final class Resources {
     /**
      * Gets all instructors
      * 
-     * @return instructors: ArrayList<Instructor>
+     * @return instructors
      */
     public ArrayList<Instructor> getInstructors() {
         ArrayList<Instructor> instructors = new ArrayList<Instructor>();
@@ -66,7 +66,7 @@ public final class Resources {
     /**
      * Gets all tandem masters
      * 
-     * @return masters: ArrayList<Master>
+     * @return masters
      */
     public ArrayList<Master> getTandemMasters() {
         ArrayList<Master> masters = new ArrayList<Master>();
@@ -79,7 +79,7 @@ public final class Resources {
     /**
      * Add skydiver to resources
      * 
-     * @param skydiver
+     * @param skydiver skydiver to be handled by resources
      */
     public void addSkydiver(Skydiver skydiver) {
         try {
@@ -93,7 +93,7 @@ public final class Resources {
     /**
      * Remove skydiver from resources
      * 
-     * @param id
+     * @param id skydiver to no longer be handled by resources
      */
     public void removeSkydiver(String id) {
         try {
@@ -107,8 +107,8 @@ public final class Resources {
     /**
      * Get flight from resources
      * 
-     * @param id
-     * @return flight: Plane
+     * @param id plane id
+     * @return plane
      */
     public Plane getFlight(String id) {
         Plane flight = null;
@@ -131,7 +131,7 @@ public final class Resources {
     /**
      * Get all this.flights from resources
      * 
-     * @return flights: ArrayList<Plane>
+     * @return flights
      */
     public ArrayList<Plane> getFlights() {
         return this.flights;
@@ -140,7 +140,7 @@ public final class Resources {
     /**
      * Add flight to resources
      * 
-     * @param plane
+     * @param plane plane to be handled by resources
      */
     public void addFlight(Plane plane) {
         try {
@@ -154,7 +154,7 @@ public final class Resources {
     /**
      * Remove flight from resources
      * 
-     * @param id
+     * @param id plane to no longer be handled by resources
      */
     public void removeFlight(String id) {
         try {

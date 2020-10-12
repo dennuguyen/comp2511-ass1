@@ -24,8 +24,8 @@ public class Request {
     /**
      * Helper function to write Request output
      * 
-     * @param success
-     * @param plane
+     * @param success Indicate successful output
+     * @param plane   Plane to extract info from
      */
     private void writeOutput(boolean success, Plane plane) {
         try {

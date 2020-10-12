@@ -19,27 +19,27 @@ public class Jump {
     }
 
     /**
-     * Gets the id of the Jump
+     * Gets the id of the jump
      * 
-     * @return id: String
+     * @return id of jump
      */
     public String getID() {
         return this.id;
     }
 
     /**
-     * Gets the skydivers on this Jump
+     * Gets the skydivers on this jump
      * 
-     * @return ArrayList<Skydiver>
+     * @return skydivers in jump as ArrayList
      */
     public ArrayList<Skydiver> getSkydivers() {
         return null;
     }
 
     /**
-     * Gets the jump run order for this Jump
+     * Gets the jump run order for this jump
      * 
-     * @return JSONObject
+     * @return ordered skydivers in jump as JSONObject
      */
     public JSONObject getJumpRun() {
         return null;

@@ -16,7 +16,7 @@ public class Instructor extends LicensedJumper {
     /**
      * Gets the home dropzone string
      * 
-     * @return dropzone: String
+     * @return dropzone
      */
     public String getDropzone() {
         return this.dropzone;

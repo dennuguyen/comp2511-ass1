@@ -25,8 +25,7 @@ public class Change {
     /**
      * Helper function to write Change output
      * 
-     * @param success
-     * @param jump
+     * @param success Indicate successful output
      */
     private void writeOutput(boolean success) {
         try {
@@ -46,8 +45,9 @@ public class Change {
     }
 
     /**
+     * Cancels and requests a new Training on success, restores old state on failure
      * 
-     * @param json
+     * @param json Change command in JSON format
      */
     public void changeTraining(JSONObject json) {
 
@@ -65,6 +65,11 @@ public class Change {
             resources.restore();
     }
 
+    /**
+     * Cancels and requests a new FunJump on success, restores old state on failure
+     * 
+     * @param json Change command in JSON format
+     */
     public void changeFunJump(JSONObject json) {
 
         // Save state
@@ -81,6 +86,11 @@ public class Change {
             resources.restore();
     }
 
+    /**
+     * Cancels and requests a new TandemJump on success, restores old state on failure
+     * 
+     * @param json Change command in JSON format
+     */
     public void changeTandemJump(JSONObject json) {
 
         // Save state

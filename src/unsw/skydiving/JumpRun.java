@@ -24,8 +24,8 @@ public class JumpRun {
      * Sorts a list of jumps into the required order and only returns the skydiver entries as a
      * JSONArray
      * 
-     * @param jumps
-     * @return sortedJSON: JSONArray
+     * @param jumps List of jumps
+     * @return Sorted list of jumps
      */
     private JSONArray sortJumps(ArrayList<Jump> jumps) {
         ArrayList<FunJump> funJumps = new ArrayList<FunJump>();
@@ -64,7 +64,7 @@ public class JumpRun {
     /**
      * Outputs a list of jumps to a json output file
      * 
-     * @param json
+     * @param json JumpRun command in JSON format
      */
     public void generate(JSONObject json) {
 

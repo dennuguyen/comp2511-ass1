@@ -66,7 +66,7 @@ public class SkydiveBookingSystem {
     /**
      * JSON file is scanned and broken into their JSON objects
      * 
-     * @param file
+     * @param file Name of file
      */
     private void parseJSON(String file) {
         Scanner scan = null;
@@ -89,7 +89,7 @@ public class SkydiveBookingSystem {
     /**
      * Commands are passed onto their respective command handlers
      * 
-     * @param json
+     * @param json Command information stored in json
      */
     private void processCommand(JSONObject json) {
         switch (json.getString(COMMAND)) {
@@ -139,7 +139,7 @@ public class SkydiveBookingSystem {
     /**
      * Main function takes a file from command line either through System.in or args
      * 
-     * @param args
+     * @param args Input arguments
      */
     public static void main(String[] args) {
 

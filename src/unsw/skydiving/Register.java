@@ -17,7 +17,7 @@ public class Register {
     /**
      * Extracts the json fields and creates a Skydiver object to be passed to the resource handler
      * 
-     * @param json
+     * @param json Register command in JSON format
      */
     public void add(JSONObject json) {
         String name = json.getString(SkydiveBookingSystem.SKYDIVER);

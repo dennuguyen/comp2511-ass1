@@ -20,7 +20,7 @@ public class TimeSlot {
     /**
      * Get start time
      * 
-     * @return start: LocalDateTime
+     * @return start time
      */
     public LocalDateTime getStartTime() {
         return this.start;
@@ -29,7 +29,7 @@ public class TimeSlot {
     /**
      * Get end time
      * 
-     * @return end: LocalDateTime
+     * @return end time
      */
     public LocalDateTime getEndTime() {
         return this.end;
@@ -39,7 +39,7 @@ public class TimeSlot {
      * Checks if an instance of time is within the timeslot
      * 
      * @param time
-     * @return boolean
+     * @return boolean on existing clash
      */
     public boolean clashes(LocalDateTime time) {
         return this.start.isBefore(time) && this.end.isAfter(time);
@@ -49,7 +49,7 @@ public class TimeSlot {
      * Checks if a given timeslot overlaps with the timeslot
      * 
      * @param timeslot
-     * @return boolean
+     * @return boolean on existing clash
      */
     public boolean clashes(TimeSlot timeslot) {
         return this.start.isBefore(timeslot.end) && timeslot.start.isBefore(this.end);
@@ -59,7 +59,7 @@ public class TimeSlot {
      * Checks if an array of timeslots overlaps with the timeslot
      * 
      * @param timeslots
-     * @return boolean
+     * @return boolean on existing clash
      */
     public boolean clashes(ArrayList<TimeSlot> timeslots) {
         for (TimeSlot timeslot : timeslots)

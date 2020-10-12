@@ -18,7 +18,7 @@ public class Skydiver {
     /**
      * Gets the skydiver's id
      * 
-     * @return id: String
+     * @return id
      */
     public String getID() {
         return this.id;
@@ -27,7 +27,7 @@ public class Skydiver {
     /**
      * Gets the skydiver's schedule
      * 
-     * @return schedule: ArrayList<TimeSlot>
+     * @return schedule
      */
     public ArrayList<TimeSlot> getSchedule() {
         return this.schedule;
@@ -36,7 +36,7 @@ public class Skydiver {
     /**
      * Adds timeslot to the skydiver's schedule
      * 
-     * @param timeslot
+     * @param timeslot timeslot to add to schedule
      */
     public void addTimeSlot(TimeSlot timeslot) {
         this.schedule.add(timeslot);

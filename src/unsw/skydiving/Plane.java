@@ -27,7 +27,7 @@ public class Plane {
     /**
      * Gets the flight id
      * 
-     * @return id: String
+     * @return plane id
      */
     public String getID() {
         return this.id;
@@ -36,7 +36,7 @@ public class Plane {
     /**
      * Gets the flight dropzone
      * 
-     * @return dropzone: String
+     * @return dropzone
      */
     public String getDropzone() {
         return this.dropzone;
@@ -45,7 +45,7 @@ public class Plane {
     /**
      * Gets the flight timeslot
      * 
-     * @return timeslot: TimeSlot
+     * @return timeslot of flight
      */
     public TimeSlot getTimeSlot() {
         return this.timeslot;
@@ -54,7 +54,7 @@ public class Plane {
     /**
      * Gets the flight's maxload
      * 
-     * @return maxload: int
+     * @return maxload
      */
     public int getMaxload() {
         return this.maxload;
@@ -63,7 +63,7 @@ public class Plane {
     /**
      * Gets the flight's current load from counting the number of skydivers from each jump
      * 
-     * @return load: int
+     * @return current load
      */
     public int getCurrentLoad() {
         int load = 0;
@@ -81,7 +81,7 @@ public class Plane {
     /**
      * Gets all the jumps
      * 
-     * @return jumps: ArrayList<Jump>
+     * @return jumps
      */
     public ArrayList<Jump> getJumps() {
         return this.jumps;
@@ -90,7 +90,7 @@ public class Plane {
     /**
      * Adds jump to jumplist
      * 
-     * @param jump
+     * @param jump jump to be added to flight
      */
     public void addJump(Jump jump) {
         this.jumps.add(jump);
@@ -99,7 +99,7 @@ public class Plane {
     /**
      * Removes jump from jumplist
      * 
-     * @param id
+     * @param id jump to be removed from flight
      */
     public void removeJump(String id) {
         this.jumps.removeIf(jump -> Objects.equals(jump.getID(), id));

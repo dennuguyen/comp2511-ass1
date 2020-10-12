@@ -18,7 +18,7 @@ public class Flight {
     /**
      * Extracts the json fields and creates a plane object to be passed to the resource handler
      * 
-     * @param json
+     * @param json Flight command in JSON format
      */
     public void createFlight(JSONObject json) {
         String id = json.getString(SkydiveBookingSystem.ID);
