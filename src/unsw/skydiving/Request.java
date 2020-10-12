@@ -6,12 +6,12 @@ package unsw.skydiving;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -39,15 +39,13 @@ public class Request {
      * @param isInstructor 3-state variable
      * @return Flight to add jump to
      */
-    private Plane filterFlights(ArrayList<Plane> flights, ArrayList<Skydiver> skydivers,
-            Boolean isInstructor) {
+    private Plane filterFlights(ArrayList<Plane> flights, ArrayList<Skydiver> skydivers) {
 
         ArrayList<Plane> filteredFlights = new ArrayList<Plane>();
 
         // Filter flights for the earliest flight time possible
         LocalDateTime min = null;
         for (Iterator<Plane> i = flights.iterator(); i.hasNext();) {
-
             Plane flight = i.next();
 
             if (min == null || flight.getTimeSlot().getStartTime().isBefore(min)) {
@@ -60,7 +58,6 @@ public class Request {
 
         // Filter flights with consideration of skydiver schedules
         for (Iterator<Plane> i = filteredFlights.iterator(); i.hasNext();) {
-
             Plane flight = i.next();
 
             // Check if skydiver schedules are okay
@@ -69,34 +66,36 @@ public class Request {
                     i.remove();
                     break;
                 }
+        }
 
-            // Check instructor schedules are okay
-            if (isInstructor == null) {
-                // Do not filter flights for fun jumps
-                continue;
-            } else if (isInstructor == true) {
-                // Filter flights for available instructors
-                if (resources.getAvailableInstructor(flight.getTimeSlot(), flight.getDropzone(),
-                        skydivers.get(0)) == null) {
-                    i.remove();
-                    continue;
-                }
-            } else if (isInstructor == false) {
-                // Filter flights for available tandem masters
-                if (resources.getAvailableMaster(flight.getTimeSlot(), flight.getDropzone(),
-                        skydivers.get(0)) == null) {
-                    i.remove();
-                    continue;
-                }
+        // Filter flights by dropzone vacancies
+        // Get dropzones
+        HashMap<String, Integer> dropzones = new HashMap<String, Integer>();
+        for (Plane flight : filteredFlights) {
+            String name = flight.getDropzone();
+            if (!dropzones.containsKey(name))
+                dropzones.put(name, 1);
+            else {
+                int count = dropzones.get(name);
+                dropzones.put(name, count + flight.getMaxload() - flight.getCurrentLoad());
             }
         }
 
-        // Sort flights by their vacancies in descending order
-        Collections.sort(filteredFlights,
-                (a, b) -> Integer.compare(a.getCurrentLoad(), b.getCurrentLoad()));
+        // Find dropzone with max vacancy
+        Map.Entry<String, Integer> max = null;
+        for (Map.Entry<String, Integer> entry : dropzones.entrySet()) {
+            if (max == null || entry.getValue().compareTo(max.getValue()) > 0)
+                max = entry;
+        }
 
+        // Filter for flights with the dropzone with max vacancy
+        for (Iterator<Plane> i = filteredFlights.iterator(); i.hasNext();) {
+            Plane flight = i.next();
+            if (!Objects.equals(flight.getDropzone(), max.getKey()))
+                i.remove();
+        }
 
-        // Get earliest registered flight
+        // Get earliest flight from filtered list or null otherwise
         return filteredFlights.isEmpty() ? null : filteredFlights.get(0);
     }
 
@@ -149,7 +148,7 @@ public class Request {
         // Filter flights
         ArrayList<Skydiver> skydivers = new ArrayList<Skydiver>();
         skydivers.add(trainee);
-        Plane plane = this.filterFlights(flights, skydivers, true);
+        Plane plane = this.filterFlights(flights, skydivers);
 
         // Check if flight exists
         if (plane == null) {
@@ -159,7 +158,7 @@ public class Request {
 
         // Get trainer
         Instructor trainer =
-                resources.getAvailableInstructor(plane.getTimeSlot(), plane.getDropzone(), trainee);
+                resources.getNextInstructor(plane.getTimeSlot(), plane.getDropzone(), trainee);
 
         // Check if trainer exists
         if (trainer == null) {
@@ -216,7 +215,7 @@ public class Request {
 
         // Filter flights
         ArrayList<Skydiver> skydivers = new ArrayList<Skydiver>(jumpers);
-        Plane plane = this.filterFlights(flights, skydivers, null);
+        Plane plane = this.filterFlights(flights, skydivers);
 
         // Check if flight exists
         if (plane == null) {
@@ -265,7 +264,7 @@ public class Request {
         // Filter flights
         ArrayList<Skydiver> skydivers = new ArrayList<Skydiver>();
         skydivers.add(passenger);
-        Plane plane = this.filterFlights(flights, skydivers, false);
+        Plane plane = this.filterFlights(flights, skydivers);
 
         // Check if flight exists
         if (plane == null) {
@@ -275,7 +274,7 @@ public class Request {
 
         // Get tandem master
         Master master =
-                resources.getAvailableMaster(plane.getTimeSlot(), plane.getDropzone(), passenger);
+                resources.getNextMaster(plane.getTimeSlot(), plane.getDropzone(), passenger);
 
         // Check if tandem master exists
         if (master == null) {
