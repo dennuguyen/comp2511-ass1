@@ -7,6 +7,7 @@ package unsw.skydiving;
 public class Instructor extends LicensedJumper {
 
     private String dropzone;
+    private int jumpCount;
 
     /**
      * Constructor
@@ -17,6 +18,7 @@ public class Instructor extends LicensedJumper {
     public Instructor(String id, String dropzone) {
         super(id);
         this.dropzone = dropzone;
+        this.jumpCount = 0;
     }
 
     /**
@@ -26,5 +28,21 @@ public class Instructor extends LicensedJumper {
      */
     public String getDropzone() {
         return this.dropzone;
+    }
+
+    /**
+     * Gets the jump count
+     * 
+     * @return jump count
+     */
+    public int getJumpCount() {
+        return this.jumpCount;
+    }
+
+    /**
+     * Increment the jump count by one
+     */
+    public void incrementJumpCount() {
+        this.jumpCount++;
     }
 }
