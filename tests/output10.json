@@ -1,0 +1,27 @@
+{
+  "flight": "flight1",
+  "dropzone": "drop1",
+  "status": "success"
+}
+{"status": "rejected"}
+{
+  "flight": "flight4",
+  "dropzone": "drop2",
+  "status": "success"
+}
+[{"skydivers": [
+  "diver1",
+  "diver2",
+  "diver3",
+  "diver4",
+  "diver5"
+]}]
+[]
+[]
+[{"skydivers": [
+  "diver10",
+  "diver6",
+  "diver7",
+  "diver8",
+  "diver9"
+]}]

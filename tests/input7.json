@@ -1,0 +1,5 @@
+{ "command": "skydiver", "skydiver": "diver1", "licence": "licenced-jumper"}
+{ "command": "skydiver", "skydiver": "diver2", "licence": "licenced-jumper"}
+{ "command": "skydiver", "skydiver": "master1", "licence": "tandem-master", "dropzone": "drop1"}
+{ "command": "request", "type": "training", "id": "should succeed", "starttime": "2020-10-07T10:15", "trainee": "diver1" }
+{ "command": "request", "type": "training", "id": "should fail", "starttime": "2020-10-07T10:30", "trainee": "diver2" }

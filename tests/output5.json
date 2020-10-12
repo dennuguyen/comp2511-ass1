@@ -1,0 +1,19 @@
+{
+  "flight": "flight1",
+  "dropzone": "drop1",
+  "status": "success"
+}
+{
+  "flight": "flight3",
+  "dropzone": "drop1",
+  "status": "success"
+}
+[{
+  "instructor": "master1",
+  "trainee": "diver1"
+}]
+[]
+[{
+  "instructor": "master1",
+  "trainee": "diver2"
+}]

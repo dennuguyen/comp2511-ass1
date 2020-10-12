@@ -1,0 +1,11 @@
+{ "command": "flight", "id": "flight1", "dropzone": "drop1", "starttime": "2020-10-07T10:15", "endtime": "2020-10-07T10:35", "maxload": 10 }
+{ "command": "flight", "id": "flight2", "dropzone": "drop1", "starttime": "2020-10-07T10:25", "endtime": "2020-10-07T10:40", "maxload": 10 }
+{ "command": "flight", "id": "flight3", "dropzone": "drop1", "starttime": "2020-10-07T10:40", "endtime": "2020-10-07T11:00", "maxload": 10 }
+{ "command": "skydiver", "skydiver": "diver1", "licence": "licenced-jumper"}
+{ "command": "skydiver", "skydiver": "diver2", "licence": "licenced-jumper"}
+{ "command": "skydiver", "skydiver": "master1", "licence": "tandem-master", "dropzone": "drop1"}
+{ "command": "request", "type": "tandem", "id": "should succeed", "starttime": "2020-10-07T10:10", "passenger": "diver2" }
+{ "command": "request", "type": "tandem", "id": "should fail", "starttime": "2020-10-07T10:30", "passenger": "diver1" }
+{ "command": "jump-run", "id": "flight1" }
+{ "command": "jump-run", "id": "flight2" }
+{ "command": "jump-run", "id": "flight3" }

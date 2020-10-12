@@ -33,7 +33,6 @@ public class Request {
             Boolean isInstructor) {
 
         ArrayList<Plane> filteredFlights = new ArrayList<Plane>(flights);
-
         // Filter flights
         for (Iterator<Plane> i = filteredFlights.iterator(); i.hasNext();) {
 
