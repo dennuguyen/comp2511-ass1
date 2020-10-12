@@ -11,6 +11,11 @@ public class Cancel {
 
     private Resources resources;
 
+    /**
+     * Constructor
+     * 
+     * @param resources Handle to resource manager
+     */
     public Cancel(Resources resources) {
         this.resources = resources;
     }

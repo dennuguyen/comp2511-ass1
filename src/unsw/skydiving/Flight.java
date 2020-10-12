@@ -11,6 +11,11 @@ public class Flight {
 
     private Resources resources;
 
+    /**
+     * Constructor
+     * 
+     * @param resources Handle to resource manager
+     */
     public Flight(Resources resources) {
         this.resources = resources;
     }

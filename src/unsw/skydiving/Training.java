@@ -11,6 +11,13 @@ public class Training extends Jump {
     private Instructor trainer;
     private Skydiver trainee;
 
+    /**
+     * Constructor
+     * 
+     * @param id      Jump id
+     * @param trainer Trainer on jump
+     * @param trainee Trainee on jump
+     */
     public Training(String id, Instructor trainer, Skydiver trainee) {
         super(id);
         this.trainer = trainer;

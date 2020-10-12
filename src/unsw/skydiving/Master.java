@@ -7,6 +7,12 @@ package unsw.skydiving;
 
 public class Master extends Instructor {
 
+    /**
+     * Constructor
+     * 
+     * @param id       Skydiver id
+     * @param dropzone Home dropzone
+     */
     public Master(String id, String dropzone) {
         super(id, dropzone);
     }

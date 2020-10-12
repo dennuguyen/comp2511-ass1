@@ -16,9 +16,9 @@ public class TimeSlot {
     /**
      * Constructor
      * 
-     * @param id Same id as jump id, null if not applicable
+     * @param id    Same id as jump id, null if not applicable
      * @param start Start time of time slot
-     * @param end End time of time slot
+     * @param end   End time of time slot
      */
     public TimeSlot(String id, LocalDateTime start, LocalDateTime end) {
         this.id = id;

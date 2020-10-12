@@ -8,12 +8,18 @@ import org.json.JSONObject;
 
 public class Jump {
 
+    /* Jump time constants */
     public static final int BRIEF_TIME = 5;
     public static final int PACK_TIME = 10;
     public static final int DEBRIEF_TIME = 15;
 
     protected String id;
 
+    /**
+     * Constructor
+     * 
+     * @param id Jump id
+     */
     public Jump(String id) {
         this.id = id;
     }

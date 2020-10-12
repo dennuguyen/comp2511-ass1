@@ -18,6 +18,9 @@ public final class Resources {
     private ArrayList<Plane> tempFlights; // Temporary List of flights
     private LinkedHashSet<Skydiver> tempSkydivers; // Temporary register of skydivers
 
+    /**
+     * Constructor
+     */
     public Resources() {
         this.flights = new ArrayList<>();
         this.skydivers = new LinkedHashSet<>();
@@ -37,10 +40,12 @@ public final class Resources {
     }
 
     /**
-     * Gets the available instructors in the given timeslot with given dropzone and is not the booked skydiver
+     * Gets the available instructors in the given timeslot with given dropzone and is not the
+     * booked skydiver
+     * 
      * @param timeSlot Time slot of concern
      * @param dropzone Dropzone of concern
-     * @param booked Skydiver to ignore
+     * @param booked   Skydiver to ignore
      * @return instructor or null on failure
      */
     public Instructor getAvailableInstructor(TimeSlot timeSlot, String dropzone, Skydiver booked) {
@@ -54,10 +59,12 @@ public final class Resources {
     }
 
     /**
-     * Gets the available tandem masters in the given timeslot with given dropzone and is not the booked skydiver
+     * Gets the available tandem masters in the given timeslot with given dropzone and is not the
+     * booked skydiver
+     * 
      * @param timeSlot Time slot of concern
      * @param dropzone Dropzone of concern
-     * @param booked Skydiver to ignore
+     * @param booked   Skydiver to ignore
      * @return tandem master or null on failure
      */
     public Master getAvailableMaster(TimeSlot timeSlot, String dropzone, Skydiver booked) {

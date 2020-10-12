@@ -18,6 +18,12 @@ public class Request {
     private FileWriter outputFile;
     private Resources resources;
 
+    /**
+     * Constructor
+     * 
+     * @param outputFile Handle to output file
+     * @param resources  Handle to resource manager
+     */
     Request(FileWriter outputFile, Resources resources) {
         this.outputFile = outputFile;
         this.resources = resources;
@@ -26,8 +32,8 @@ public class Request {
     /**
      * Helper function to filter flights
      * 
-     * @param flights List of flights to filter
-     * @param skydivers List of skydivers to consider
+     * @param flights      List of flights to filter
+     * @param skydivers    List of skydivers to consider
      * @param isInstructor 3-state variable
      * @return Flight to add jump to
      */
@@ -53,15 +59,15 @@ public class Request {
                 continue;
             } else if (isInstructor == true) {
                 // Filter flights for available instructors
-                if (resources.getAvailableInstructor(flight.getTimeSlot(),
-                        flight.getDropzone(), skydivers.get(0)) == null) {
+                if (resources.getAvailableInstructor(flight.getTimeSlot(), flight.getDropzone(),
+                        skydivers.get(0)) == null) {
                     i.remove();
                     continue;
                 }
             } else if (isInstructor == false) {
                 // Filter flights for available tandem masters
-                if (resources.getAvailableMaster(flight.getTimeSlot(),
-                        flight.getDropzone(), skydivers.get(0)) == null) {
+                if (resources.getAvailableMaster(flight.getTimeSlot(), flight.getDropzone(),
+                        skydivers.get(0)) == null) {
                     i.remove();
                     continue;
                 }
@@ -69,8 +75,8 @@ public class Request {
         }
 
         // Sort flights by their vacancies in descending order
-        Collections.sort(filteredFlights, (a, b) -> Integer
-                .compare(a.getCurrentLoad(), b.getCurrentLoad()));
+        Collections.sort(filteredFlights,
+                (a, b) -> Integer.compare(a.getCurrentLoad(), b.getCurrentLoad()));
 
         // Get earliest registered flight
         return filteredFlights.isEmpty() ? null : filteredFlights.get(0);
@@ -210,7 +216,8 @@ public class Request {
 
         // Add timeslot to skydiver schedules
         for (Skydiver jumper : jumpers)
-            jumper.addTimeSlot(new TimeSlot(id, flightStart, flightEnd.plusMinutes(Jump.PACK_TIME)));
+            jumper.addTimeSlot(
+                    new TimeSlot(id, flightStart, flightEnd.plusMinutes(Jump.PACK_TIME)));
 
         this.writeOutput(true, plane);
         return true;
@@ -249,7 +256,8 @@ public class Request {
         }
 
         // Get tandem master
-        Master master = resources.getAvailableMaster(plane.getTimeSlot(), plane.getDropzone(), passenger);
+        Master master =
+                resources.getAvailableMaster(plane.getTimeSlot(), plane.getDropzone(), passenger);
 
         // Check if tandem master exists
         if (master == null) {
@@ -268,7 +276,8 @@ public class Request {
         // Add timeslot to skydiver schedules
         master.addTimeSlot(new TimeSlot(id, flightStart.minusMinutes(Jump.BRIEF_TIME),
                 flightEnd.plusMinutes(Jump.PACK_TIME)));
-        passenger.addTimeSlot(new TimeSlot(id, flightStart.minusMinutes(Jump.BRIEF_TIME), flightEnd));
+        passenger.addTimeSlot(
+                new TimeSlot(id, flightStart.minusMinutes(Jump.BRIEF_TIME), flightEnd));
 
         // Output status
         this.writeOutput(true, plane);

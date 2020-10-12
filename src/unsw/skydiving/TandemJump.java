@@ -12,6 +12,13 @@ public class TandemJump extends Jump {
     private Master master;
     private Skydiver passenger;
 
+    /**
+     * Constructor
+     * 
+     * @param id        Jump id
+     * @param master    Tandem master on jump
+     * @param passenger Passenger on jump
+     */
     public TandemJump(String id, Master master, Skydiver passenger) {
         super(id);
         this.master = master;

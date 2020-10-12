@@ -19,11 +19,11 @@ public class Plane {
     /**
      * Constructor
      * 
-     * @param id Plane id
+     * @param id       Plane id
      * @param dropzone Dropzone name
-     * @param start Start time of flight
-     * @param end End time of flight
-     * @param maxload Max load of plane
+     * @param start    Start time of flight
+     * @param end      End time of flight
+     * @param maxload  Max load of plane
      */
     public Plane(String id, String dropzone, LocalDateTime start, LocalDateTime end, int maxload) {
         this.id = id;

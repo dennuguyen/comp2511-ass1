@@ -53,6 +53,11 @@ public class SkydiveBookingSystem {
     private Cancel cancel;
     private JumpRun jumprun;
 
+    /**
+     * SkydiveBookingSystem Constructor
+     * 
+     * @param outputFile Handle to output file
+     */
     public SkydiveBookingSystem(FileWriter outputFile) {
         Resources resources = new Resources();
         this.flight = new Flight(resources);
@@ -155,7 +160,7 @@ public class SkydiveBookingSystem {
                 break;
             case 1:
                 inputFileName = args[0];
-                outputFileName = "../sample.json";
+                outputFileName = "../output.json";
                 break;
             case 2:
                 inputFileName = args[0];

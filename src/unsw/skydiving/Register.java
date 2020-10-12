@@ -10,6 +10,11 @@ public class Register {
 
     Resources resources;
 
+    /**
+     * Constructor
+     * 
+     * @param resources Handle to resource manager
+     */
     public Register(Resources resources) {
         this.resources = resources;
     }

@@ -15,6 +15,12 @@ public class JumpRun {
     private FileWriter outputFile;
     private Resources resources;
 
+    /**
+     * Constructor
+     * 
+     * @param outputFile Handle to output file
+     * @param resources  Handle to resource manager
+     */
     public JumpRun(FileWriter outputFile, Resources resources) {
         this.outputFile = outputFile;
         this.resources = resources;

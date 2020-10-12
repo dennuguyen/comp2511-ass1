@@ -13,6 +13,12 @@ public class FunJump extends Jump {
 
     private ArrayList<LicensedJumper> jumpers;
 
+    /**
+     * Constructor
+     * 
+     * @param id      Jump id
+     * @param jumpers List of skydivers
+     */
     public FunJump(String id, ArrayList<LicensedJumper> jumpers) {
         super(id);
         this.jumpers = jumpers;

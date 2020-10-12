@@ -16,6 +16,14 @@ public class Change {
     private Request request;
     private Cancel cancel;
 
+    /**
+     * Constructor
+     * 
+     * @param outputFile Handle to output file
+     * @param resources  Handle to resource manager
+     * @param request    Request command handler
+     * @param cancel     Cancel command handler
+     */
     public Change(FileWriter outputFile, Resources resources, Request request, Cancel cancel) {
         this.outputFile = outputFile;
         this.resources = resources;
