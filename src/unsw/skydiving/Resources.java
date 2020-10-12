@@ -61,18 +61,19 @@ public final class Resources {
 
         // Sort instructors by jump count
         Collections.sort(instructors,
-                (a, b) -> Integer.compare(a.getJumpCount(), b.getJumpCount()));
+                (a, b) -> Integer.compare(a.getJumpCount(timeSlot), b.getJumpCount(timeSlot)));
 
         // Filter instructors for min jump count
         int min = -1;
         ArrayList<Instructor> tempInstructors = new ArrayList<Instructor>();
         for (Iterator<Instructor> i = instructors.iterator(); i.hasNext();) {
             Instructor instructor = i.next();
-            if (min == -1 || instructor.getJumpCount() < min) {
+            int jumpCount = instructor.getJumpCount(timeSlot);
+            if (min == -1 || jumpCount < min) {
                 tempInstructors.clear();
                 tempInstructors.add(instructor);
-                min = instructor.getJumpCount();
-            } else if (instructor.getJumpCount() == min)
+                min = jumpCount;
+            } else if (jumpCount == min)
                 tempInstructors.add(instructor);
         }
 
@@ -100,18 +101,20 @@ public final class Resources {
                             masters.add((Master) skydiver);
 
         // Sort tandem masters by jump count
-        Collections.sort(masters, (a, b) -> Integer.compare(a.getJumpCount(), b.getJumpCount()));
+        Collections.sort(masters,
+                (a, b) -> Integer.compare(a.getJumpCount(timeSlot), b.getJumpCount(timeSlot)));
 
         // Filter instructors for min jump count
         int min = -1;
         ArrayList<Master> tempMasters = new ArrayList<Master>();
-        for (Iterator<Master> i = tempMasters.iterator(); i.hasNext();) {
+        for (Iterator<Master> i = masters.iterator(); i.hasNext();) {
             Master master = i.next();
-            if (min == -1 || master.getJumpCount() < min) {
+            int jumpCount = master.getJumpCount(timeSlot);
+            if (min == -1 || jumpCount < min) {
                 tempMasters.clear();
                 tempMasters.add(master);
-                min = master.getJumpCount();
-            } else if (master.getJumpCount() == min)
+                min = jumpCount;
+            } else if (jumpCount == min)
                 tempMasters.add(master);
         }
 

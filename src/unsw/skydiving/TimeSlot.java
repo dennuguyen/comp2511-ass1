@@ -4,6 +4,7 @@
  */
 package unsw.skydiving;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -84,5 +85,14 @@ public class TimeSlot {
             if (clashes(timeslot))
                 return true;
         return false;
+    }
+
+    /**
+     * Gets the start time as a local date
+     * 
+     * @return Start time as local date
+     */
+    public LocalDate toLocalDate() {
+        return this.start.toLocalDate();
     }
 }
