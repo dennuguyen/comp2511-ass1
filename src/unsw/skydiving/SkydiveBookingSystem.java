@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -59,8 +58,8 @@ public class SkydiveBookingSystem {
         this.flight = new Flight(resources);
         this.register = new Register(resources);
         this.request = new Request(outputFile, resources);
-        this.change = new Change(resources);
         this.cancel = new Cancel(resources);
+        this.change = new Change(outputFile, resources, this.request, this.cancel);
         this.jumprun = new JumpRun(outputFile, resources);
     }
 
