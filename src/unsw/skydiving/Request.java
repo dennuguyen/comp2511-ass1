@@ -47,25 +47,14 @@ public class Request {
     }
 
     /**
-     * Function overload for requestTraining to always output command status to outputFile
+     * Extracts the json fields and creates a Training object to be passed to the resource handler.
+     * Bookkeeping conditions are checked in this request. Skydivers involved in the jump also have
+     * their time schedule updated.
      * 
      * @param json Request command in JSON format
      * @return boolean on success or rejected status
      */
     public boolean requestTraining(JSONObject json) {
-        return this.requestTraining(json, true);
-    }
-
-    /**
-     * Extracts the json fields and creates a Training object to be passed to the resource handler.
-     * Bookkeeping conditions are checked in this request. Skydivers involved in the jump also have
-     * their time schedule updated.
-     * 
-     * @param json     Request command in JSON format
-     * @param isOutput Output the request status
-     * @return boolean on success or rejected status
-     */
-    public boolean requestTraining(JSONObject json, boolean isOutput) {
 
         // Unpack the json
         String id = json.getString(SkydiveBookingSystem.ID);
@@ -108,27 +97,15 @@ public class Request {
                                 trainee.addTimeSlot(new TimeSlot(flightStart,
                                         flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
 
-                            if (isOutput == true)
-                                this.writeOutput(true, plane);
+                            this.writeOutput(true, plane);
                             return true;
                         }
                     }
                 }
             }
         }
-        if (isOutput == true)
-            this.writeOutput(false, null);
+        this.writeOutput(false, null);
         return false;
-    }
-
-    /**
-     * Function overload for requestFunJump to always output command status to outputFile
-     * 
-     * @param json Request command in JSON format
-     * @return boolean on success or rejected status
-     */
-    public boolean requestFunJump(JSONObject json) {
-        return this.requestTraining(json, true);
     }
 
     /**
@@ -136,11 +113,10 @@ public class Request {
      * Bookkeeping conditions are checked in this request. Skydivers involved in the jump also have
      * their time schedule updated.
      * 
-     * @param json     Request command in JSON format
-     * @param isOutput Output the request status
+     * @param json Request command in JSON format
      * @return boolean on success or rejected status
      */
-    public boolean requestFunJump(JSONObject json, boolean isOutput) {
+    public boolean requestFunJump(JSONObject json) {
         // Unpack the json
         String id = json.getString(SkydiveBookingSystem.ID);
         LocalDateTime start = LocalDateTime.parse(json.getString(SkydiveBookingSystem.STARTTIME));
@@ -175,25 +151,13 @@ public class Request {
                         jumper.addTimeSlot(new TimeSlot(flightStart,
                                 flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
 
-                    if (isOutput == true)
-                        this.writeOutput(true, plane);
+                    this.writeOutput(true, plane);
                     return true;
                 }
             }
         }
-        if (isOutput == true)
-            this.writeOutput(false, null);
+        this.writeOutput(false, null);
         return false;
-    }
-
-    /**
-     * Function overload for requestTandemJump to always output command status to outputFile
-     * 
-     * @param json Request command in JSON format
-     * @return boolean on success or rejected status
-     */
-    public boolean requestTandemJump(JSONObject json) {
-        return this.requestTraining(json, true);
     }
 
     /**
@@ -201,11 +165,10 @@ public class Request {
      * handler. Bookkeeping conditions are checked in this request. Skydivers involved in the jump
      * also have their time schedule updated.
      * 
-     * @param json     Request command in JSON format
-     * @param isOutput Output the request status
+     * @param json Request command in JSON format
      * @return boolean on success or rejected status
      */
-    public boolean requestTandemJump(JSONObject json, boolean isOutput) {
+    public boolean requestTandemJump(JSONObject json) {
         // Unpack the json
         String id = json.getString(SkydiveBookingSystem.ID);
         LocalDateTime start = LocalDateTime.parse(json.getString(SkydiveBookingSystem.STARTTIME));
@@ -244,16 +207,14 @@ public class Request {
                             passenger.addTimeSlot(new TimeSlot(
                                     flightStart.minusMinutes(Jump.BRIEF_TIME), flightEnd));
 
-                            if (isOutput == true)
-                                this.writeOutput(true, plane);
+                            this.writeOutput(true, plane);
                             return true;
                         }
                     }
                 }
             }
         }
-        if (isOutput == true)
-            this.writeOutput(false, null);
+        this.writeOutput(false, null);
         return false;
     }
 }
