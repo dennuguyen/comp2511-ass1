@@ -65,20 +65,20 @@ public final class Resources {
 
         // Filter instructors for min jump count
         int min = -1;
-        ArrayList<Instructor> tempInstructors = new ArrayList<Instructor>();
+        ArrayList<Instructor> filteredInstructors = new ArrayList<Instructor>();
         for (Iterator<Instructor> i = instructors.iterator(); i.hasNext();) {
             Instructor instructor = i.next();
             int jumpCount = instructor.getJumpCount(timeSlot);
             if (min == -1 || jumpCount < min) {
-                tempInstructors.clear();
-                tempInstructors.add(instructor);
+                filteredInstructors.clear();
+                filteredInstructors.add(instructor);
                 min = jumpCount;
             } else if (jumpCount == min)
-                tempInstructors.add(instructor);
+                filteredInstructors.add(instructor);
         }
 
         // Get earliest registered skydiver from filtered list or null otherwise
-        return tempInstructors.isEmpty() ? null : tempInstructors.get(0);
+        return filteredInstructors.isEmpty() ? null : filteredInstructors.get(0);
     }
 
     /**
@@ -106,20 +106,20 @@ public final class Resources {
 
         // Filter instructors for min jump count
         int min = -1;
-        ArrayList<Master> tempMasters = new ArrayList<Master>();
+        ArrayList<Master> filteredMasters = new ArrayList<Master>();
         for (Iterator<Master> i = masters.iterator(); i.hasNext();) {
             Master master = i.next();
             int jumpCount = master.getJumpCount(timeSlot);
             if (min == -1 || jumpCount < min) {
-                tempMasters.clear();
-                tempMasters.add(master);
+                filteredMasters.clear();
+                filteredMasters.add(master);
                 min = jumpCount;
             } else if (jumpCount == min)
-                tempMasters.add(master);
+                filteredMasters.add(master);
         }
 
         // Get earliest registered skydiver from filtered list or null otherwise
-        return tempMasters.isEmpty() ? null : tempMasters.get(0);
+        return filteredMasters.isEmpty() ? null : filteredMasters.get(0);
     }
 
     /**
