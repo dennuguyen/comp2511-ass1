@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,6 +21,58 @@ public class Request {
     Request(FileWriter outputFile, Resources resources) {
         this.outputFile = outputFile;
         this.resources = resources;
+    }
+
+    /**
+     * Helper function to filter flights
+     * 
+     * @param flights List of flights to filter
+     * @return Flight to add jump to
+     */
+    private Plane filterFlights(ArrayList<Plane> flights, ArrayList<Skydiver> skydivers,
+            Boolean isInstructor) {
+
+        ArrayList<Plane> filteredFlights = new ArrayList<Plane>(flights);
+
+        // Filter flights
+        for (Iterator<Plane> i = filteredFlights.iterator(); i.hasNext();) {
+
+            Plane flight = i.next();
+
+            // Check if skydiver schedules are okay
+            for (Skydiver skydiver : skydivers)
+                if (flight.getTimeSlot().clashes(skydiver.getSchedule())) {
+                    i.remove();
+                    break;
+                }
+
+            // Check instructor schedules are okay
+            if (isInstructor == null) {
+                // Do not filter flights for fun jumps
+                continue;
+            } else if (isInstructor == true) {
+                // Filter flights for available instructors
+                if (resources.getAvailableInstructor(flight.getTimeSlot(),
+                        flight.getDropzone(), skydivers.get(0)) == null) {
+                    i.remove();
+                    continue;
+                }
+            } else if (isInstructor == false) {
+                // Filter flights for available tandem masters
+                if (resources.getAvailableMaster(flight.getTimeSlot(),
+                        flight.getDropzone(), skydivers.get(0)) == null) {
+                    i.remove();
+                    continue;
+                }
+            }
+        }
+
+        // Sort flights by their vacancies in descending order
+        Collections.sort(filteredFlights, (a, b) -> Integer
+                .compare(a.getCurrentLoad(), b.getCurrentLoad()));
+
+        // Get earliest registered flight
+        return filteredFlights.isEmpty() ? null : filteredFlights.get(0);
     }
 
     /**
@@ -38,7 +92,7 @@ public class Request {
                 output.put("status", "rejected");
             }
 
-            this.outputFile.write(output.toString(4) + "\n");
+            this.outputFile.write(output.toString(2) + "\n");
             this.outputFile.flush();
 
         } catch (IOException e) {
@@ -64,48 +118,51 @@ public class Request {
         // Get jumpers
         Skydiver trainee = resources.getSkydiver(traineeStr);
 
-        // Find a suitable flight
-        for (Plane plane : resources.getFlights()) {
+        // Get all available flights
+        ArrayList<Plane> flights = resources.getAvailableFlights(start, 2);
 
-            LocalDateTime flightStart = plane.getTimeSlot().getStartTime();
-            LocalDateTime flightEnd = plane.getTimeSlot().getEndTime();
+        // Filter flights
+        ArrayList<Skydiver> skydivers = new ArrayList<Skydiver>();
+        skydivers.add(trainee);
+        Plane plane = this.filterFlights(flights, skydivers, true);
 
-            // Jump start must be before plane start
-            if (start.isBefore(flightStart)) {
-
-                // Check maxload requirement
-                if (2 + plane.getCurrentLoad() <= plane.getMaxload()) {
-
-                    // Find a suitable instructor for flight
-                    for (Instructor trainer : resources.getInstructors()) {
-
-                        // Instructor is available
-                        if (!plane.getTimeSlot().clashes(trainer.getSchedule())) {
-
-                            Training jump = new Training(id, trainer, trainee);
-
-                            // Add jump to flight
-                            plane.addJump(jump);
-
-                            // Add timeslot to skydiver schedules
-                            trainer.addTimeSlot(new TimeSlot(flightStart,
-                                    flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
-                            if (trainee instanceof Student) {
-                                trainee.addTimeSlot(new TimeSlot(flightStart,
-                                        flightEnd.plusMinutes(Jump.DEBRIEF_TIME)));
-                            } else
-                                trainee.addTimeSlot(new TimeSlot(flightStart,
-                                        flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
-
-                            this.writeOutput(true, plane);
-                            return true;
-                        }
-                    }
-                }
-            }
+        // Check if flight exists
+        if (plane == null) {
+            this.writeOutput(false, null);
+            return false;
         }
-        this.writeOutput(false, null);
-        return false;
+
+        // Get trainer
+        Instructor trainer =
+                resources.getAvailableInstructor(plane.getTimeSlot(), plane.getDropzone(), trainee);
+
+        // Check if trainer exists
+        if (trainer == null) {
+            this.writeOutput(false, null);
+            return false;
+        }
+
+        // Get flight start and end times
+        LocalDateTime flightStart = plane.getTimeSlot().getStartTime();
+        LocalDateTime flightEnd = plane.getTimeSlot().getEndTime();
+
+        // Add jump to plane
+        Training jump = new Training(id, trainer, trainee);
+        plane.addJump(jump);
+
+        // Add timeslot to skydiver schedules
+        trainer.addTimeSlot(new TimeSlot(flightStart,
+                flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
+        if (trainee instanceof Student)
+            trainee.addTimeSlot(
+                    new TimeSlot(flightStart, flightEnd.plusMinutes(Jump.DEBRIEF_TIME)));
+        else
+            trainee.addTimeSlot(new TimeSlot(flightStart,
+                    flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
+
+        // Output status
+        this.writeOutput(true, plane);
+        return true;
     }
 
     /**
@@ -129,35 +186,33 @@ public class Request {
             jumpers.add((LicensedJumper) resources.getSkydiver(name));
         }
 
-        // Find a suitable flight
-        for (Plane plane : resources.getFlights()) {
+        // Get all available flights
+        ArrayList<Plane> flights = resources.getAvailableFlights(start, jumpers.size());
 
-            LocalDateTime flightStart = plane.getTimeSlot().getStartTime();
-            LocalDateTime flightEnd = plane.getTimeSlot().getEndTime();
+        // Filter flights
+        ArrayList<Skydiver> skydivers = new ArrayList<Skydiver>(jumpers);
+        Plane plane = this.filterFlights(flights, skydivers, null);
 
-            // Jump start must be before plane start
-            if (start.isBefore(flightStart)) {
-
-                // Check maxload requirement
-                if (jumpers.size() + plane.getCurrentLoad() <= plane.getMaxload()) {
-
-                    FunJump jump = new FunJump(id, jumpers);
-
-                    // Add jump to flight
-                    plane.addJump(jump);
-
-                    // Add timeslot to skydiver schedules
-                    for (Skydiver jumper : jumpers)
-                        jumper.addTimeSlot(new TimeSlot(flightStart,
-                                flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
-
-                    this.writeOutput(true, plane);
-                    return true;
-                }
-            }
+        // Check if flight exists
+        if (plane == null) {
+            this.writeOutput(false, null);
+            return false;
         }
-        this.writeOutput(false, null);
-        return false;
+
+        // Get flight start and end times
+        LocalDateTime flightStart = plane.getTimeSlot().getStartTime();
+        LocalDateTime flightEnd = plane.getTimeSlot().getEndTime();
+
+        // Add jump to flight
+        FunJump jump = new FunJump(id, jumpers);
+        plane.addJump(jump);
+
+        // Add timeslot to skydiver schedules
+        for (Skydiver jumper : jumpers)
+            jumper.addTimeSlot(new TimeSlot(flightStart, flightEnd.plusMinutes(Jump.PACK_TIME)));
+
+        this.writeOutput(true, plane);
+        return true;
     }
 
     /**
@@ -177,44 +232,45 @@ public class Request {
         // Get jumpers
         Skydiver passenger = resources.getSkydiver(passengerStr);
 
-        // Find a suitable flight
-        for (Plane plane : resources.getFlights()) {
+        // Get all available flights
+        ArrayList<Plane> flights =
+                resources.getAvailableFlights(start.plusMinutes(Jump.BRIEF_TIME), 2);
 
-            LocalDateTime flightStart = plane.getTimeSlot().getStartTime();
-            LocalDateTime flightEnd = plane.getTimeSlot().getEndTime();
+        // Filter flights
+        ArrayList<Skydiver> skydivers = new ArrayList<Skydiver>();
+        skydivers.add(passenger);
+        Plane plane = this.filterFlights(flights, skydivers, false);
 
-            // Flight must be after jump start + briefing time
-            if (flightStart.isAfter(start.plusMinutes(Jump.BRIEF_TIME))) {
-
-                // Check maxload requirement
-                if (2 + plane.getCurrentLoad() <= plane.getMaxload()) {
-
-                    // Find a suitable Master for flight
-                    for (Master master : resources.getTandemMasters()) {
-
-                        // Master is available
-                        if (!plane.getTimeSlot().clashes(master.getSchedule())) {
-
-                            TandemJump jump = new TandemJump(id, master, passenger);
-
-                            // Add jump to flight
-                            plane.addJump(jump);
-
-                            // Add timeslot to skydiver schedules
-                            master.addTimeSlot(
-                                    new TimeSlot(flightStart.minusMinutes(Jump.BRIEF_TIME),
-                                            flightEnd.plusMinutes(Jump.PACK_TIME)));
-                            passenger.addTimeSlot(new TimeSlot(
-                                    flightStart.minusMinutes(Jump.BRIEF_TIME), flightEnd));
-
-                            this.writeOutput(true, plane);
-                            return true;
-                        }
-                    }
-                }
-            }
+        // Check if flight exists
+        if (plane == null) {
+            this.writeOutput(false, null);
+            return false;
         }
-        this.writeOutput(false, null);
-        return false;
+
+        // Get tandem master
+        Master master = resources.getAvailableMaster(plane.getTimeSlot(), plane.getDropzone(), passenger);
+
+        // Check if tandem master exists
+        if (master == null) {
+            this.writeOutput(false, null);
+            return false;
+        }
+
+        // Get flight start and end times
+        LocalDateTime flightStart = plane.getTimeSlot().getStartTime();
+        LocalDateTime flightEnd = plane.getTimeSlot().getEndTime();
+
+        // Add jump to plane
+        TandemJump jump = new TandemJump(id, master, passenger);
+        plane.addJump(jump);
+
+        // Add timeslot to skydiver schedules
+        master.addTimeSlot(new TimeSlot(flightStart.minusMinutes(Jump.BRIEF_TIME),
+                flightEnd.plusMinutes(Jump.PACK_TIME)));
+        passenger.addTimeSlot(new TimeSlot(flightStart.minusMinutes(Jump.BRIEF_TIME), flightEnd));
+
+        // Output status
+        this.writeOutput(true, plane);
+        return true;
     }
 }

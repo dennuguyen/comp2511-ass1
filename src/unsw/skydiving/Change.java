@@ -36,7 +36,7 @@ public class Change {
                 output.put("status", "rejected");
             }
 
-            this.outputFile.write(output.toString(4) + "\n");
+            this.outputFile.write(output.toString(2) + "\n");
             this.outputFile.flush();
 
         } catch (IOException e) {

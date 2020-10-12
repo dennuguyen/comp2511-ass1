@@ -77,7 +77,7 @@ public class JumpRun {
 
         // Output to json file
         try {
-            this.outputFile.write(sortJumps(jumps).toString(4) + "\n");
+            this.outputFile.write(sortJumps(jumps).toString(2) + "\n");
             this.outputFile.flush();
 
         } catch (IOException e) {

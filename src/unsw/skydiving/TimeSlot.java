@@ -1,6 +1,6 @@
 /**
- * TimeSlot is a collection of a start and end LocalDateTime with convenient clashes methods to
- * determine overlapping times
+ * TimeSlot is a collection of a start and end LocalDateTime representing an unavailable timeslot
+ * with convenient clashes methods to determine overlapping times
  */
 package unsw.skydiving;
 

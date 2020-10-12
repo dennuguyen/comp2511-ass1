@@ -160,6 +160,7 @@ public class SkydiveBookingSystem {
             case 2:
                 inputFileName = args[0];
                 outputFileName = args[1];
+                break;
             default:
                 System.err.println("Invalid arguments");
         }

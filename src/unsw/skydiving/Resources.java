@@ -5,6 +5,7 @@
 package unsw.skydiving;
 
 import java.util.Objects;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -22,6 +23,10 @@ public final class Resources {
         this.skydivers = new LinkedHashSet<>();
     }
 
+    /**
+     * 
+     * @return
+     */
     public LinkedHashSet<Skydiver> getSkydivers() {
         return this.skydivers;
     }
@@ -33,47 +38,40 @@ public final class Resources {
      * @return skydiver
      */
     public Skydiver getSkydiver(String id) {
-        Skydiver skydiver = null;
-
-        try {
-            for (Skydiver jumper : this.skydivers)
-                if (Objects.equals(jumper.getID(), id))
-                    skydiver = jumper;
-
-            if (skydiver == null)
-                throw new NullPointerException();
-
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        return skydiver;
+        for (Skydiver jumper : this.skydivers)
+            if (Objects.equals(jumper.getID(), id))
+                return jumper;
+        return null;
     }
 
     /**
-     * Gets all instructors
      * 
-     * @return instructors
+     * @param timeSlot
+     * @return
      */
-    public ArrayList<Instructor> getInstructors() {
-        ArrayList<Instructor> instructors = new ArrayList<Instructor>();
+    public Instructor getAvailableInstructor(TimeSlot timeSlot, String dropzone, Skydiver booked) {
         for (Skydiver skydiver : this.skydivers)
             if (skydiver instanceof Instructor)
-                instructors.add((Instructor) skydiver);
-        return instructors;
+                if (Objects.equals(dropzone, ((Instructor) skydiver).getDropzone()))
+                    if (!timeSlot.clashes(skydiver.getSchedule()))
+                        if (!Objects.equals(skydiver, booked) || booked == null)
+                            return (Instructor) skydiver;
+        return null;
     }
 
     /**
-     * Gets all tandem masters
      * 
-     * @return masters
+     * @param timeSlot
+     * @return
      */
-    public ArrayList<Master> getTandemMasters() {
-        ArrayList<Master> masters = new ArrayList<Master>();
+    public Master getAvailableMaster(TimeSlot timeSlot, String dropzone, Skydiver booked) {
         for (Skydiver skydiver : this.skydivers)
             if (skydiver instanceof Master)
-                masters.add((Master) skydiver);
-        return masters;
+                if (Objects.equals(dropzone, ((Master) skydiver).getDropzone()))
+                    if (!timeSlot.clashes(skydiver.getSchedule()))
+                        if (!Objects.equals(skydiver, booked) || booked == null)
+                            return (Master) skydiver;
+        return null;
     }
 
     /**
@@ -111,21 +109,10 @@ public final class Resources {
      * @return plane
      */
     public Plane getFlight(String id) {
-        Plane flight = null;
-
-        try {
-            for (Plane plane : this.flights)
-                if (Objects.equals(plane.getID(), id))
-                    flight = plane;
-
-            if (flight == null)
-                throw new NullPointerException();
-
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        return flight;
+        for (Plane plane : this.flights)
+            if (Objects.equals(plane.getID(), id))
+                return plane;
+        return null;
     }
 
     /**
@@ -135,6 +122,28 @@ public final class Resources {
      */
     public ArrayList<Plane> getFlights() {
         return this.flights;
+    }
+
+    /**
+     * Gets a list of available flights given a jump start time and jump load
+     * 
+     * @param start Jump start time
+     * @param load  Jump load
+     * @return Available flights
+     */
+    public ArrayList<Plane> getAvailableFlights(LocalDateTime start, int load) {
+
+        ArrayList<Plane> planes = new ArrayList<Plane>();
+
+        for (Plane plane : this.flights) {
+            LocalDateTime flightStart = plane.getTimeSlot().getStartTime();
+
+            if (flightStart.toLocalDate().isEqual(start.toLocalDate()))
+                if (!start.isAfter(flightStart))
+                    if (load + plane.getCurrentLoad() <= plane.getMaxload())
+                        planes.add(plane);
+        }
+        return planes;
     }
 
     /**
