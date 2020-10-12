@@ -150,25 +150,26 @@ public class SkydiveBookingSystem {
 
         FileWriter outputFile = null;
         // String outputFileName = null;
-        String inputFileName = null;
+        Scanner inputFile = new Scanner(System.in);
+        String inputFileName = inputFile.next();
 
         // Get file names
-        switch (args.length) {
-            case 0:
-                inputFileName = new Scanner(System.in).next();
-                // outputFileName = new Scanner(System.in).next();
-                break;
-            case 1:
-                inputFileName = args[0];
-                // outputFileName = "../output.json";
-                break;
-            case 2:
-                inputFileName = args[0];
-                // outputFileName = args[1];
-                break;
-            default:
-                System.err.println("Invalid arguments");
-        }
+        // switch (args.length) {
+        // case 0:
+        // inputFileName = new Scanner(System.in).next();
+        // outputFileName = new Scanner(System.in).next();
+        // break;
+        // case 1:
+        // inputFileName = args[0];
+        // outputFileName = "../output.json";
+        // break;
+        // case 2:
+        // inputFileName = args[0];
+        // outputFileName = args[1];
+        // break;
+        // default:
+        // System.err.println("Invalid arguments");
+        // }
 
         // Open output file
         // try {
@@ -185,6 +186,7 @@ public class SkydiveBookingSystem {
         try {
             outputFile.flush();
             outputFile.close();
+            inputFile.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
