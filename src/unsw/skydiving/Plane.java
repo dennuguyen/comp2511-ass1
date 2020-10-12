@@ -6,6 +6,7 @@ package unsw.skydiving;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Plane {
 
@@ -101,6 +102,6 @@ public class Plane {
      * @param id
      */
     public void removeJump(String id) {
-        this.jumps.removeIf(jump -> jump.getID() == id);
+        this.jumps.removeIf(jump -> Objects.equals(jump.getID(), id));
     }
 }
