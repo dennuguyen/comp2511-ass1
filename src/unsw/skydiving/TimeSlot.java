@@ -9,12 +9,30 @@ import java.util.ArrayList;
 
 public class TimeSlot {
 
+    private String id;
     private LocalDateTime start;
     private LocalDateTime end;
 
-    public TimeSlot(LocalDateTime start, LocalDateTime end) {
+    /**
+     * Constructor
+     * 
+     * @param id Same id as jump id, null if not applicable
+     * @param start Start time of time slot
+     * @param end End time of time slot
+     */
+    public TimeSlot(String id, LocalDateTime start, LocalDateTime end) {
+        this.id = id;
         this.start = start;
         this.end = end;
+    }
+
+    /**
+     * Get the id that is the same as the jump id
+     * 
+     * @return id
+     */
+    public String getID() {
+        return this.id;
     }
 
     /**

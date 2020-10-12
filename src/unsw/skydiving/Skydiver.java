@@ -4,12 +4,18 @@
 package unsw.skydiving;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Skydiver {
 
     protected String id;
     protected ArrayList<TimeSlot> schedule;
 
+    /**
+     * Constructor
+     * 
+     * @param id Skydiver id
+     */
     public Skydiver(String id) {
         this.id = id;
         this.schedule = new ArrayList<TimeSlot>();
@@ -36,9 +42,20 @@ public class Skydiver {
     /**
      * Adds timeslot to the skydiver's schedule
      * 
-     * @param timeslot timeslot to add to schedule
+     * @param timeslot Timeslot to add to schedule
+     * @return Indicate success
      */
-    public void addTimeSlot(TimeSlot timeslot) {
-        this.schedule.add(timeslot);
+    public boolean addTimeSlot(TimeSlot timeslot) {
+        return this.schedule.add(timeslot);
+    }
+
+    /**
+     * Remove timeslot from the skydiver's schedule
+     * 
+     * @param timeslot Timeslot to remove from schedule
+     * @return Indicate success
+     */
+    public boolean removeTimeSlot(String id) {
+        return this.schedule.removeIf(timeSlot -> Objects.equals(timeSlot.getID(), id));
     }
 }

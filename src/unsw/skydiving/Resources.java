@@ -24,14 +24,6 @@ public final class Resources {
     }
 
     /**
-     * 
-     * @return
-     */
-    public LinkedHashSet<Skydiver> getSkydivers() {
-        return this.skydivers;
-    }
-
-    /**
      * Get skydiver from resources
      * 
      * @param id skydiver id
@@ -45,9 +37,11 @@ public final class Resources {
     }
 
     /**
-     * 
-     * @param timeSlot
-     * @return
+     * Gets the available instructors in the given timeslot with given dropzone and is not the booked skydiver
+     * @param timeSlot Time slot of concern
+     * @param dropzone Dropzone of concern
+     * @param booked Skydiver to ignore
+     * @return instructor or null on failure
      */
     public Instructor getAvailableInstructor(TimeSlot timeSlot, String dropzone, Skydiver booked) {
         for (Skydiver skydiver : this.skydivers)
@@ -60,9 +54,11 @@ public final class Resources {
     }
 
     /**
-     * 
-     * @param timeSlot
-     * @return
+     * Gets the available tandem masters in the given timeslot with given dropzone and is not the booked skydiver
+     * @param timeSlot Time slot of concern
+     * @param dropzone Dropzone of concern
+     * @param booked Skydiver to ignore
+     * @return tandem master or null on failure
      */
     public Master getAvailableMaster(TimeSlot timeSlot, String dropzone, Skydiver booked) {
         for (Skydiver skydiver : this.skydivers)

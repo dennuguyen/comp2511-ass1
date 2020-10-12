@@ -6,6 +6,7 @@ package unsw.skydiving;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Change {
@@ -59,6 +60,8 @@ public class Change {
             this.writeOutput(false);
             return;
         }
+
+        System.out.println(new JSONArray(resources.getFlights()));
 
         // Request new jump. On failure, restore temporary reference
         if (request.requestTraining(json) == false)

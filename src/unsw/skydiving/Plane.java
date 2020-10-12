@@ -16,10 +16,19 @@ public class Plane {
     private int maxload;
     private ArrayList<Jump> jumps;
 
+    /**
+     * Constructor
+     * 
+     * @param id Plane id
+     * @param dropzone Dropzone name
+     * @param start Start time of flight
+     * @param end End time of flight
+     * @param maxload Max load of plane
+     */
     public Plane(String id, String dropzone, LocalDateTime start, LocalDateTime end, int maxload) {
         this.id = id;
         this.dropzone = dropzone;
-        this.timeslot = new TimeSlot(start, end);
+        this.timeslot = new TimeSlot(null, start, end);
         this.maxload = maxload;
         this.jumps = new ArrayList<Jump>();
     }
@@ -91,17 +100,26 @@ public class Plane {
      * Adds jump to jumplist
      * 
      * @param jump jump to be added to flight
+     * @return Indicate success
      */
-    public void addJump(Jump jump) {
-        this.jumps.add(jump);
+    public boolean addJump(Jump jump) {
+        return this.jumps.add(jump);
     }
 
     /**
      * Removes jump from jumplist
      * 
      * @param id jump to be removed from flight
+     * @return Indicate succcess
      */
-    public void removeJump(String id) {
-        this.jumps.removeIf(jump -> Objects.equals(jump.getID(), id));
+    public boolean removeJump(String id) {
+        for (Jump jump : this.jumps)
+            if (Objects.equals(jump.getID(), id)) {
+                for (Skydiver skydiver : jump.getSkydivers())
+                    skydiver.removeTimeSlot(id);
+                this.jumps.remove(jump);
+                return true;
+            }
+        return false;
     }
 }

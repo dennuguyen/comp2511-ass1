@@ -14,7 +14,7 @@
 { "command": "skydiver", "skydiver": "diver10", "licence": "licenced-jumper"}
 { "command": "request", "type": "fun", "id": "should succeed", "starttime": "2020-10-07T10:15", "skydivers": ["diver1", "diver2", "diver3", "diver4", "diver5"] }
 { "command": "request", "type": "fun", "id": "should fail", "starttime": "2020-10-07T10:50", "skydivers": ["diver1", "diver2", "diver3", "diver4", "diver5"] }
-{ "command": "request", "type": "fun", "id": "should succeed again", "starttime": "2020-10-07T10:15", "skydivers": ["diver6", "diver7", "diver8", "diver9", "diver10"] }
+{ "command": "cancel", "id": "should succeed" }
 { "command": "jump-run", "id": "flight1" }
 { "command": "jump-run", "id": "flight2" }
 { "command": "jump-run", "id": "flight3" }

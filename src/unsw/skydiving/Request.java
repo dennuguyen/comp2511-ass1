@@ -27,6 +27,8 @@ public class Request {
      * Helper function to filter flights
      * 
      * @param flights List of flights to filter
+     * @param skydivers List of skydivers to consider
+     * @param isInstructor 3-state variable
      * @return Flight to add jump to
      */
     private Plane filterFlights(ArrayList<Plane> flights, ArrayList<Skydiver> skydivers,
@@ -150,13 +152,13 @@ public class Request {
         plane.addJump(jump);
 
         // Add timeslot to skydiver schedules
-        trainer.addTimeSlot(new TimeSlot(flightStart,
+        trainer.addTimeSlot(new TimeSlot(id, flightStart,
                 flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
         if (trainee instanceof Student)
             trainee.addTimeSlot(
-                    new TimeSlot(flightStart, flightEnd.plusMinutes(Jump.DEBRIEF_TIME)));
+                    new TimeSlot(id, flightStart, flightEnd.plusMinutes(Jump.DEBRIEF_TIME)));
         else
-            trainee.addTimeSlot(new TimeSlot(flightStart,
+            trainee.addTimeSlot(new TimeSlot(id, flightStart,
                     flightEnd.plusMinutes(Jump.DEBRIEF_TIME + Jump.PACK_TIME)));
 
         // Output status
@@ -208,7 +210,7 @@ public class Request {
 
         // Add timeslot to skydiver schedules
         for (Skydiver jumper : jumpers)
-            jumper.addTimeSlot(new TimeSlot(flightStart, flightEnd.plusMinutes(Jump.PACK_TIME)));
+            jumper.addTimeSlot(new TimeSlot(id, flightStart, flightEnd.plusMinutes(Jump.PACK_TIME)));
 
         this.writeOutput(true, plane);
         return true;
@@ -264,9 +266,9 @@ public class Request {
         plane.addJump(jump);
 
         // Add timeslot to skydiver schedules
-        master.addTimeSlot(new TimeSlot(flightStart.minusMinutes(Jump.BRIEF_TIME),
+        master.addTimeSlot(new TimeSlot(id, flightStart.minusMinutes(Jump.BRIEF_TIME),
                 flightEnd.plusMinutes(Jump.PACK_TIME)));
-        passenger.addTimeSlot(new TimeSlot(flightStart.minusMinutes(Jump.BRIEF_TIME), flightEnd));
+        passenger.addTimeSlot(new TimeSlot(id, flightStart.minusMinutes(Jump.BRIEF_TIME), flightEnd));
 
         // Output status
         this.writeOutput(true, plane);
