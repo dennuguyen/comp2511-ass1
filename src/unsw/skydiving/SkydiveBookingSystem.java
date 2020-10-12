@@ -183,6 +183,7 @@ public class SkydiveBookingSystem {
 
         // Close output file
         try {
+            outputFile.flush();
             outputFile.close();
         } catch (IOException e) {
             e.printStackTrace();
