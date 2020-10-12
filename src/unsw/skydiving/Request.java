@@ -6,9 +6,11 @@ package unsw.skydiving;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -40,8 +42,23 @@ public class Request {
     private Plane filterFlights(ArrayList<Plane> flights, ArrayList<Skydiver> skydivers,
             Boolean isInstructor) {
 
-        ArrayList<Plane> filteredFlights = new ArrayList<Plane>(flights);
-        // Filter flights
+        ArrayList<Plane> filteredFlights = new ArrayList<Plane>();
+
+        // Filter flights for the earliest flight time possible
+        LocalDateTime min = null;
+        for (Iterator<Plane> i = flights.iterator(); i.hasNext();) {
+
+            Plane flight = i.next();
+
+            if (min == null || flight.getTimeSlot().getStartTime().isBefore(min)) {
+                filteredFlights.clear();
+                filteredFlights.add(flight);
+                min = flight.getTimeSlot().getStartTime();
+            } else if (flight.getTimeSlot().getStartTime().isEqual(min))
+                filteredFlights.add(flight);
+        }
+
+        // Filter flights with consideration of skydiver schedules
         for (Iterator<Plane> i = filteredFlights.iterator(); i.hasNext();) {
 
             Plane flight = i.next();
@@ -77,6 +94,7 @@ public class Request {
         // Sort flights by their vacancies in descending order
         Collections.sort(filteredFlights,
                 (a, b) -> Integer.compare(a.getCurrentLoad(), b.getCurrentLoad()));
+
 
         // Get earliest registered flight
         return filteredFlights.isEmpty() ? null : filteredFlights.get(0);
