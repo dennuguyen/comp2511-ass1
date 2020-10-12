@@ -4,17 +4,45 @@
 
 package unsw.skydiving;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import org.json.JSONArray;
+import java.io.FileWriter;
+import java.io.IOException;
 import org.json.JSONObject;
 
 public class Change {
 
+    private FileWriter outputFile;
     private Resources resources;
+    private Request request;
+    private Cancel cancel;
 
-    public Change(Resources resources) {
+    public Change(FileWriter outputFile, Resources resources, Request request, Cancel cancel) {
+        this.outputFile = outputFile;
         this.resources = resources;
+        this.request = request;
+        this.cancel = cancel;
+    }
+
+    /**
+     * Helper function to write Change output
+     * 
+     * @param success
+     * @param jump
+     */
+    private void writeOutput(boolean success) {
+        try {
+            JSONObject output = new JSONObject();
+            if (success == true) {
+                output.put("status", "success");
+            } else {
+                output.put("status", "rejected");
+            }
+
+            this.outputFile.write(output.toString(4) + "\n");
+            this.outputFile.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -22,26 +50,50 @@ public class Change {
      * @param json
      */
     public void changeTraining(JSONObject json) {
-        String id = json.getString(SkydiveBookingSystem.ID);
-        // LocalDateTime start =
-        // LocalDateTime.parse(json.getString(SkydiveBookingSystem.STARTTIME));
-        // new Training(id, start, trainer, trainee);
+
+        // Save state
+        resources.save();
+
+        // Cancel jump
+        if (cancel.cancel(json) == false) {
+            this.writeOutput(false);
+            return;
+        }
+
+        // Request new jump. On failure, restore temporary reference
+        if (request.requestTraining(json) == false)
+            resources.restore();
     }
 
     public void changeFunJump(JSONObject json) {
-        // String id = json.getString(SkydiveBookingSystem.ID);
-        // LocalDateTime start =
-        // LocalDateTime.parse(json.getString(SkydiveBookingSystem.STARTTIME));
-        // JSONArray jsonArray = json.getJSONArray(SkydiveBookingSystem.SKYDIVERS);
-        // ArrayList<Skydiver> jumpers = new ArrayList<>();
-        // for (int i = 0; i < jsonArray.length(); i++) {
-        // String name = (jsonArray.getString(i));
-        // jumpers.add(new Skydiver(name));
-        // }
-        // new FunJump(id, jumpers);
+
+        // Save state
+        resources.save();
+
+        // Cancel jump
+        if (cancel.cancel(json) == false) {
+            this.writeOutput(false);
+            return;
+        }
+
+        // Request new jump. On failure, restore temporary reference
+        if (request.requestFunJump(json) == false)
+            resources.restore();
     }
 
     public void changeTandemJump(JSONObject json) {
-        // new TandemJump(id, start, master, passenger);
+
+        // Save state
+        resources.save();
+
+        // Cancel jump
+        if (cancel.cancel(json) == false) {
+            this.writeOutput(false);
+            return;
+        }
+
+        // Request new jump. On failure, restore temporary reference
+        if (request.requestTandemJump(json) == false)
+            resources.restore();
     }
 }
