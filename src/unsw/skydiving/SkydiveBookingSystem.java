@@ -5,6 +5,7 @@
 package unsw.skydiving;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -84,7 +85,6 @@ public class SkydiveBookingSystem {
 
         while (scan.hasNextLine()) {
             String line = scan.nextLine();
-            // System.out.println(line);
             processCommand(new JSONObject(line));
         }
 
@@ -149,33 +149,33 @@ public class SkydiveBookingSystem {
     public static void main(String[] args) {
 
         FileWriter outputFile = null;
-        String outputFileName = null;
+        // String outputFileName = null;
         String inputFileName = null;
 
         // Get file names
         switch (args.length) {
             case 0:
                 inputFileName = new Scanner(System.in).next();
-                outputFileName = new Scanner(System.in).next();
+                // outputFileName = new Scanner(System.in).next();
                 break;
             case 1:
                 inputFileName = args[0];
-                outputFileName = "../output.json";
+                // outputFileName = "../output.json";
                 break;
             case 2:
                 inputFileName = args[0];
-                outputFileName = args[1];
+                // outputFileName = args[1];
                 break;
             default:
                 System.err.println("Invalid arguments");
         }
 
         // Open output file
-        try {
-            outputFile = new FileWriter(outputFileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // try {
+        outputFile = new FileWriter(FileDescriptor.out);
+        // } catch (IOException e) {
+        // e.printStackTrace();
+        // }
 
         // Init the skydive booking system
         SkydiveBookingSystem sys = new SkydiveBookingSystem(outputFile);
